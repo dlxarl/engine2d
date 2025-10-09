@@ -1,0 +1,21 @@
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+
+# Build artifacts
+*.o
+*.so
+*.a
+*.dylib
+*.exe
+
+# IDE/Editor files
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Temporary files
+.tmp/
+temp/
