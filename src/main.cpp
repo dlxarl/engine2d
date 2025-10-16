@@ -1,35 +1,21 @@
-// Builds with: pkg-config --cflags --libs allegro-5 allegro_main-5 allegro_primitives-5
+#include "Engine.h"
+#include "RectangleShape.h"
+#include "CircleShape.h"
+#include "LineShape.h"
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <cstdio>
+int main() {
+    Engine engine(800, 600, 60.0f);
+    if (!engine.init()) return -1;
 
-int main(int argc, char** argv) {
-	if (!al_init()) {
-		std::fprintf(stderr, "Failed to initialize Allegro\n");
-		return 1;
-	}
+    RectangleShape rect({100, 100}, 200, 120, {1, 0, 0, 1});
+    CircleShape circle({400, 300}, 60, {0, 1, 0, 1});
+    LineShape line({100, 500}, {700, 500}, {0, 0, 1, 1});
 
-	if (!al_init_primitives_addon()) {
-		std::fprintf(stderr, "Failed to initialize primitives addon\n");
-		return 1;
-	}
+    engine.addShape(&rect);
+    engine.addShape(&circle);
+    engine.addShape(&line);
 
-	const int width = 640;
-	const int height = 480;
-
-	ALLEGRO_DISPLAY* display = al_create_display(width, height);
-	if (!display) {
-		std::fprintf(stderr, "Failed to create display\n");
-		return 1;
-	}
-
-	al_clear_to_color(al_map_rgb(30, 30, 60));
-	al_draw_filled_rectangle(100, 100, 540, 380, al_map_rgb(200, 50, 50));
-	al_flip_display();
-
-	al_rest(2.0);
-
-	al_destroy_display(display);
-	return 0;
+    engine.run();
+    return 0;
 }
+#

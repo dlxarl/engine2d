@@ -1,17 +1,30 @@
 {
     "configurations": [
         {
+            // Конфігурація для Windows + MSYS2 (UCRT64)
+            "name": "Windows-MSYS2",
+            "includePath": [
+                "${workspaceFolder}/**",           // Додає всі підтеки проєкту
+                "C:/msys64/ucrt64/include",        // Основні заголовки MSYS2
+                "C:/msys64/ucrt64/include/allegro5" // Заголовки Allegro
+            ],
+            "compilerPath": "C:/msys64/ucrt64/bin/g++.exe", // Шлях до компілятора
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            // Конфігурація для Mac (Homebrew)
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/opt/homebrew/include/allegro5/",
-                "/opt/homebrew/lib/",
-                "/opt/homebrew/Cellar/allegro/5.2.10.1_2/include/allegro5/"
+                "${workspaceFolder}/**",                           // Додає всі підтеки проєкту
+                "/opt/homebrew/include",                           // Основні заголовки Homebrew
+                "/opt/homebrew/include/allegro5",                 // Заголовки Allegro
+                "/opt/homebrew/Cellar/allegro/5.2.10.1_2/include/allegro5" // Можливий точний шлях до версії Allegro
             ],
-            "defines": [],
-            "compilerPath": "/usr/bin/clang",
+            "compilerPath": "/usr/bin/clang",                  // Використовуємо Clang
             "cStandard": "c17",
-            "cppStandard": "c++14",
+            "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-arm64"
         }
     ],

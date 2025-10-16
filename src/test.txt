@@ -1,0 +1,333 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+struct Point2D { float x, y; };
+struct Color { float r, g, b, a; };
+
+struct Transform {
+    Point2D position{0,0};
+    float rotation = 0;
+    Point2D scale{1,1};
+};
+
+class Renderable {
+public:
+    Transform transform;
+    virtual void update(float dt) {}
+    virtual void draw() = 0;
+    virtual ~Renderable() {}
+};
+
+class Rectangle : public Renderable {
+public:
+    float width, height;
+    Color color;
+    bool alive = true;
+    Rectangle(float w, float h, Color c) : width(w), height(h), color(c) {}
+    void draw() override {
+        if(!alive) return;
+        ALLEGRO_TRANSFORM t;
+        al_identity_transform(&t);
+        al_translate_transform(&t, transform.position.x, transform.position.y);
+        al_rotate_transform(&t, transform.rotation);
+        al_use_transform(&t);
+        al_draw_filled_rectangle(0,0,width,height, al_map_rgba_f(color.r,color.g,color.b,color.a));
+    }
+};
+
+class AnimatedRect : public Rectangle {
+public:
+    std::vector<Color> frames;
+    float frameTime;
+    float elapsed = 0;
+    int currentFrame = 0;
+    Point2D velocity{0,0};
+
+    AnimatedRect(float s, std::vector<Color> f, float ft)
+        : Rectangle(s,s,f[0]), frames(f), frameTime(ft) {}
+
+    void update(float dt) override {
+        if(!alive) return;
+        elapsed += dt;
+        if (elapsed >= frameTime) {
+            currentFrame = (currentFrame + 1) % frames.size();
+            color = frames[currentFrame];
+            elapsed = 0;
+        }
+        transform.position.x += velocity.x * dt;
+        transform.position.y += velocity.y * dt;
+
+        // обмеження по екрану
+        if (transform.position.x < 0 || transform.position.x + transform.scale.x > 800) velocity.x = -velocity.x;
+        if (transform.position.y < 0 || transform.position.y + transform.scale.y > 600) velocity.y = -velocity.y;
+    }
+};
+
+class Sprite : public Renderable {
+public:
+    ALLEGRO_BITMAP* texture = nullptr;
+    Sprite(const char* path) { texture = al_load_bitmap(path); }
+    void draw() override {
+        if(!texture) return;
+        ALLEGRO_TRANSFORM t;
+        al_identity_transform(&t);
+        al_translate_transform(&t, transform.position.x, transform.position.y);
+        al_use_transform(&t);
+        al_draw_bitmap(texture,0,0,0);
+    }
+    ~Sprite(){ if(texture) al_destroy_bitmap(texture); }
+};
+
+struct Input {
+    bool keys[ALLEGRO_KEY_MAX]{false};
+    float mouseX=0, mouseY=0;
+    bool mouseButtons[5]{false};
+    void handleEvent(ALLEGRO_EVENT& ev){
+        switch(ev.type){
+            case ALLEGRO_EVENT_KEY_DOWN: keys[ev.keyboard.keycode]=true; break;
+            case ALLEGRO_EVENT_KEY_UP: keys[ev.keyboard.keycode]=false; break;
+            case ALLEGRO_EVENT_MOUSE_AXES: mouseX=ev.mouse.x; mouseY=ev.mouse.y; break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: mouseButtons[ev.mouse.button-1]=true; break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_UP: mouseButtons[ev.mouse.button-1]=false; break;
+        }
+    }
+};
+
+class Engine {
+    ALLEGRO_FONT* font = nullptr;
+public:
+    std::vector<Renderable*> objects;
+    Input input;
+    ALLEGRO_DISPLAY* display=nullptr;
+    ALLEGRO_EVENT_QUEUE* queue=nullptr;
+    ALLEGRO_TIMER* timer=nullptr;
+    bool running=true;
+    int score=0;
+
+    bool init(int w=800, int h=600) {
+        if (!al_init()) {
+            std::cerr << "Failed to initialize Allegro\n";
+            return false;
+        }
+
+        if (!al_install_keyboard()) {
+            std::cerr << "Failed to install keyboard\n";
+            return false;
+        }
+
+        if (!al_install_mouse()) {
+            std::cerr << "Failed to install mouse\n";
+            return false;
+        }
+
+        if (!al_init_primitives_addon()) {
+            std::cerr << "Failed to initialize primitives addon\n";
+            return false;
+        }
+
+        if (!al_init_image_addon()) {
+            std::cerr << "Failed to initialize image addon\n";
+            return false;
+        }
+
+        if (!al_init_font_addon()) {
+            std::cerr << "Failed to initialize font addon\n";
+            return false;
+        }
+
+        display = al_create_display(w, h);
+        if (!display) {
+            std::cerr << "Failed to create display\n";
+            return false;
+        }
+
+        queue = al_create_event_queue();
+        if (!queue) {
+            std::cerr << "Failed to create event queue\n";
+            return false;
+        }
+
+        timer = al_create_timer(1.0/60.0);
+        if (!timer) {
+            std::cerr << "Failed to create timer\n";
+            return false;
+        }
+
+        font = al_create_builtin_font();
+        if (!font) {
+            std::cerr << "Failed to create font\n";
+            return false;
+        }
+
+        if (!al_get_keyboard_event_source() || !al_get_mouse_event_source()) {
+            std::cerr << "Failed to get input event sources\n";
+            return false;
+        }
+
+        al_register_event_source(queue, al_get_keyboard_event_source());
+        al_register_event_source(queue, al_get_mouse_event_source());
+        al_register_event_source(queue, al_get_timer_event_source(timer));
+        al_register_event_source(queue, al_get_display_event_source(display));
+        
+        al_start_timer(timer);
+        return true;
+    }
+
+    void run(){
+        ALLEGRO_EVENT ev;
+        bool redraw=true;
+        Rectangle* player=nullptr;
+        std::vector<Rectangle*> projectiles;
+        AnimatedRect* enemy=nullptr;
+
+        for(auto obj:objects){
+            player=dynamic_cast<Rectangle*>(obj);
+            if(player) break;
+        }
+
+        for(auto obj:objects){
+            enemy=dynamic_cast<AnimatedRect*>(obj);
+            if(enemy) break;
+        }
+
+        std::srand(std::time(nullptr));
+
+        while(running){
+            while(al_get_next_event(queue,&ev)){
+                if(ev.type==ALLEGRO_EVENT_DISPLAY_CLOSE) running=false;
+                else if(ev.type==ALLEGRO_EVENT_TIMER) redraw=true;
+                input.handleEvent(ev);
+            }
+
+            if(redraw){
+                float dt=1.0f/60.0f;
+
+                // рух гравця
+                if(player && player->alive){
+                    if(input.keys[ALLEGRO_KEY_LEFT]) player->transform.position.x -= 200*dt;
+                    if(input.keys[ALLEGRO_KEY_RIGHT]) player->transform.position.x += 200*dt;
+                    if(input.keys[ALLEGRO_KEY_UP]) player->transform.position.y -= 200*dt;
+                    if(input.keys[ALLEGRO_KEY_DOWN]) player->transform.position.y += 200*dt;
+                }
+
+                // створення снарядів
+                if(input.mouseButtons[0]){
+                    Rectangle* bullet=new Rectangle(10,10,{1,1,1,1});
+                    bullet->transform.position={input.mouseX-5,input.mouseY-5};
+                    objects.push_back(bullet);
+                    projectiles.push_back(bullet);
+                }
+
+                // оновлення всіх об'єктів
+                for(auto obj:objects) obj->update(dt);
+
+                // зіткнення снарядів з ворогом
+                if(enemy && enemy->alive){
+                    for(auto bullet:projectiles){
+                        if(!bullet->alive) continue;
+                        if(bullet->transform.position.x+10 > enemy->transform.position.x &&
+                           bullet->transform.position.x < enemy->transform.position.x + enemy->transform.scale.x &&
+                           bullet->transform.position.y+10 > enemy->transform.position.y &&
+                           bullet->transform.position.y < enemy->transform.position.y + enemy->transform.scale.y){
+                            bullet->alive=false;
+                            enemy->alive=false;
+                            score+=1;
+                        }
+                    }
+                }
+
+                // зіткнення ворога з гравцем
+                if(player && enemy && player->alive && enemy->alive){
+                    if(player->transform.position.x+player->width > enemy->transform.position.x &&
+                       player->transform.position.x < enemy->transform.position.x+enemy->transform.scale.x &&
+                       player->transform.position.y+player->height > enemy->transform.position.y &&
+                       player->transform.position.y < enemy->transform.position.y+enemy->transform.scale.y){
+                        player->alive=false;
+                        std::cout<<"Game Over! Score: "<<score<<"\n";
+                    }
+                }
+
+                // Очищення "мертвих" снарядів
+                auto it = projectiles.begin();
+                while(it != projectiles.end()) {
+                    if(!(*it)->alive) {
+                        it = projectiles.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+
+                // рендер
+                al_clear_to_color(al_map_rgb(0,0,0));
+                for(auto obj:objects) obj->draw();
+
+                // відображення рахунку
+                al_draw_textf(font, al_map_rgb(255,255,255), 10, 10, 0, "Score: %d", score);
+
+                al_flip_display();
+                redraw=false;
+            }
+        }
+    }
+
+    ~Engine(){
+        if(font) al_destroy_font(font);
+        for(auto obj:objects) delete obj;
+        if(timer) al_destroy_timer(timer);
+        if(queue) al_destroy_event_queue(queue);
+        if(display) al_destroy_display(display);
+    }
+};
+
+int main() {
+    if (!al_init()) {
+        std::cerr << "Failed to initialize Allegro\n";
+        return -1;
+    }
+
+    Engine engine;
+    if (!engine.init()) {
+        std::cerr << "Failed to initialize Engine\n";
+        return -1;
+    }
+
+    // Перевіряємо створення об'єктів
+    Rectangle* player = new Rectangle(100, 50, {1,0,0,1});
+    if (!player) {
+        std::cerr << "Failed to create player\n";
+        return -1;
+    }
+    player->transform.position = {200,200};
+    engine.objects.push_back(player);
+
+    std::vector<Color> frames = {{1,0,0,1},{0,1,0,1},{0,0,1,1},{1,1,0,1}};
+    AnimatedRect* enemy = new AnimatedRect(64, frames, 0.2f);
+    if (!enemy) {
+        std::cerr << "Failed to create enemy\n";
+        return -1;
+    }
+    enemy->transform.position = {300,300};
+    enemy->velocity = {100,120};
+    engine.objects.push_back(enemy);
+
+    // Перевіряємо наявність файлу перед створенням спрайту
+    if (al_filename_exists("my_sprite.png")) {
+        Sprite* mySprite = new Sprite("my_sprite.png");
+        if (mySprite && mySprite->texture) {
+            mySprite->transform.position = {500,100};
+            engine.objects.push_back(mySprite);
+        } else {
+            std::cerr << "Failed to load sprite texture\n";
+            delete mySprite;
+        }
+    }
+
+    engine.run();
+    return 0;
+}
