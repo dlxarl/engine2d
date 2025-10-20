@@ -17,19 +17,27 @@ pkg_check_modules(ALLEGRO5 REQUIRED
     allegro_acodec-5
 )
 
-# Шляхи до include Allegro та наших заголовків
+# Шляхи до include
 include_directories(
     ${ALLEGRO5_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/include/engine
-    ${CMAKE_SOURCE_DIR}/src/engine
 )
 
 link_directories(${ALLEGRO5_LIBRARY_DIRS})
 
-# Усі .cpp файли з src/
-file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+# Збираємо всі cpp
+file(GLOB_RECURSE SOURCES
+    "${CMAKE_SOURCE_DIR}/src/engine/*.cpp"
+    "${CMAKE_SOURCE_DIR}/main.cpp"
+)
 
 add_executable(engine2d ${SOURCES})
 
-# Підключаємо бібліотеки Allegro
+# Підключаємо Allegro
 target_link_libraries(engine2d ${ALLEGRO5_LIBRARIES})
+
+# У деяких системах Allegro вимагає додаткових прапорів
+target_compile_options(engine2d PRIVATE ${ALLEGRO5_CFLAGS_OTHER})
+target_link_options(engine2d PRIVATE ${ALLEGRO5_LDFLAGS_OTHER})
+
+

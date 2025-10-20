@@ -1,15 +1,12 @@
 #pragma once
 #include "Shape.h"
+#include "Point2D.h"
 
 class LineShape : public Shape {
 public:
-    Point2D end;
+    Point2D p1, p2;
 
-    LineShape(Point2D start, Point2D endPoint, Color col)
-        : Shape(start, col), end(endPoint) {}
+    LineShape(Point2D a, Point2D b, Color c);
 
-    void draw() override {
-        al_draw_line(position.x, position.y, end.x, end.y,
-                     al_map_rgba_f(color.r, color.g, color.b, color.a), 2.0f);
-    }
+    void draw(Renderer& r) override;
 };

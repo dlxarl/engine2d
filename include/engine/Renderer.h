@@ -1,9 +1,19 @@
 #pragma once
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <vector>
+#include "Color.h"
 
 class Renderer {
+private:
+    int width, height;
+    std::vector<Color> framebuffer;
+
 public:
-    void begin();
-    void end();
+    Renderer(int w, int h);
+    void clear(Color c);
+    void setPixel(int x, int y, Color c);
+    void drawFramebuffer();
+    int getWidth() const {return width; }
+    int getHeight() const {return height; }
 };

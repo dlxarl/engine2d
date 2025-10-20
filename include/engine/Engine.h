@@ -4,21 +4,20 @@
 #include "Input.h"
 #include "Renderer.h"
 #include "Shape.h"
+#include "LineShape.h"
+#include <CircleShape.h>
+#include <RectangleShape.h>
+
 
 class Engine {
 public:
-    Engine(int width, int height, float fps);
+    Engine(int width, int height, const char* title);
     ~Engine();
 
-    bool init();
     void run();
-    void stop();
-
-    void addShape(Shape* shape);
 
 private:
-    void handleEvents();
-    void render();
+    
 
     bool running;
     int screenWidth, screenHeight;
@@ -28,7 +27,14 @@ private:
     ALLEGRO_EVENT_QUEUE* eventQueue;
     ALLEGRO_TIMER* timer;
 
+    LineShape line;
+    CircleShape circle;
+    RectangleShape rectangle;
+
     Input input;
     Renderer renderer;
-    std::vector<Shape*> shapes;
+    
+    void handleEvents();
+    void update();
+    void render();
 };

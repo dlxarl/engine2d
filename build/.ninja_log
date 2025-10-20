@@ -1,12 +1,20 @@
 # ninja log v7
-1050	1398	7822733086613336	engine2d.exe	de2a5aa20d6df260
+1026	1413	7823202212549442	engine2d.exe	397093be39a73785
 34	1050	7822733076454914	CMakeFiles/engine2d.dir/src/test.cpp.obj	1b7db24c0ead0511
-97	3154	7823130287448211	build.ninja	a640c955ba276bc9
-97	3154	7823130287428222	D:/PGK project/engine2d/build/cmake_install.cmake	a640c955ba276bc9
-2	428	7823130287448211	build.ninja	a640c955ba276bc9
-2	428	7823130287448211	D:/PGK project/engine2d/build/cmake_install.cmake	a640c955ba276bc9
-66	1081	7823130288627131	CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.obj	1e873373a7b3303e
-59	1083	7823130288563068	CMakeFiles/engine2d.dir/src/engine/Input.cpp.obj	dfed79031ea3a56a
-92	583	7823131666164783	CMakeFiles/engine2d.dir/src/main.cpp.obj	4e795f00d2abaa90
+3	529	7826974120293681	build.ninja	a640c955ba276bc9
+3	529	7826974120259449	D:/PGK project/engine2d/build/cmake_install.cmake	a640c955ba276bc9
+111	1622	7826972500600585	CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.obj	184cd5bf724f0deb
+89	1163	7826972500396108	CMakeFiles/engine2d.dir/src/engine/Input.cpp.obj	9c24ec3af31bdf65
+8	1025	7823202202376943	CMakeFiles/engine2d.dir/src/main.cpp.obj	4e795f00d2abaa90
 56	1343	7823131665805271	CMakeFiles/engine2d.dir/src/engine/Engine.cpp.obj	68b22f8d428083bf
-1343	2132	7823131678680426	engine2d.exe	397093be39a73785
+104	1574	7826972500540197	CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.obj	6e95cad8661af8bf
+97	1807	7826972500469652	CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.obj	c733c9ed8ffbffb5
+28	52	7826973971889588	clean	7cad43144eea5c8
+99	593	7826974177989329	CMakeFiles/engine2d.dir/src/engine/Input.cpp.obj	9c24ec3af31bdf65
+38	784	7826974177387462	CMakeFiles/engine2d.dir/src/engine/CircleShape.cpp.obj	e00cbbd8298cca3d
+106	792	7826974178071430	CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.obj	c733c9ed8ffbffb5
+115	793	7826974178167652	CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.obj	6e95cad8661af8bf
+123	903	7826974178247651	CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.obj	184cd5bf724f0deb
+92	1017	7826974177935931	CMakeFiles/engine2d.dir/src/engine/Engine.cpp.obj	6383980e08d5789d
+133	1120	7826974178358493	CMakeFiles/engine2d.dir/src/main.cpp.obj	9caa8e4802a566aa
+1120	1606	7826974188209218	engine2d.exe	cfea7794811a3d2e

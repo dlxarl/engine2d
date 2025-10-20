@@ -13,3 +13,6 @@ void Input::handleEvent(ALLEGRO_EVENT& ev) {
     else if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
         mouseButtons[ev.mouse.button - 1] = false;
 }
+
+bool Input::isKeyPressed(int key) { return keys[key]; }
+bool Input::isMousePressed(int button) { return mouseButtons[button]; }
