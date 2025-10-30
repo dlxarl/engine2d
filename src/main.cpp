@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     CircleShape circle(Point2D(400, 400), 80, Color(0, 0, 255));
     TriangleShape triangle(Point2D(600, 300), 60, Color(255, 255, 0));
     BitmapShape image("assets/test_static.png", Point2D(400, 300));
-    AnimatedBitmap anim("assets/test_anim.png", 130, 130, 4, 0.2f, Point2D(200, 200));
+    AnimatedBitmap anim("assets/samurai/ATTACK.png", 96, 96, 7, 0.05f, Point2D(200, 200), 4.0f);
 
     // Allegro for events
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();

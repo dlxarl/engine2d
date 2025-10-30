@@ -1,13 +1,14 @@
 #include "AnimatedBitmap.h"
 #include <iostream>
 
-AnimatedBitmap::AnimatedBitmap(const std::string& path, int fw, int fh, int frames, float duration, Point2D pos)
-    : Shape(Color(255, 255, 255)), // або будь-який інший колір
+AnimatedBitmap::AnimatedBitmap(const std::string& path, int fw, int fh, int frames, float duration, Point2D pos, float sc)
+    : Shape(Color(255, 255, 255)),
       frameWidth(fw),
       frameHeight(fh),
       totalFrames(frames),
       frameDuration(duration),
-      position(pos)
+      position(pos),
+      scale(sc)
 {
     spriteSheet = al_load_bitmap(path.c_str());
     if (!spriteSheet) {
@@ -47,7 +48,11 @@ void AnimatedBitmap::draw(Renderer& r) {
             unsigned char rC, gC, bC, aC;
             al_unmap_rgba(c, &rC, &gC, &bC, &aC);
             if (aC > 0) {
-                r.setPixel(position.x + x, position.y + y, Color(rC, gC, bC));
+                for (int dy = 0; dy < scale; ++dy) {
+                    for (int dx = 0; dx < scale; ++dx) {
+                        r.setPixel(position.x + x * scale + dx, position.y + y * scale + dy, Color(rC, gC, bC));
+                    }
+                }
             }
         }
     }
