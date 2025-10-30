@@ -3,8 +3,11 @@
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <cmath>
+#include "TriangleShape.h"
 
-int main() {
+int main(int argc, char** argv) {
+    (void)argc;
+    (void)argv;
     // Ініціалізація рушія
     Engine engine(800, 600, "2D Engine Full Demo");
 
@@ -13,8 +16,9 @@ int main() {
 
     // Створюємо об’єкти
     LineShape line(Point2D(100, 100), Point2D(700, 100), Color(255, 0, 0));
-    RectangleShape rect(Point2D(300, 200), 150, 100, Color(0, 255, 0));
+    RectangleShape rect(Point2D(300, 100), 150, 100, Color(0, 255, 0), Color(0, 0, 0));
     CircleShape circle(Point2D(400, 400), 80, Color(0, 0, 255));
+    TriangleShape triangle(Point2D(600, 300), 60, Color(255, 255, 0));
 
     // Allegro для подій
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
@@ -48,6 +52,10 @@ int main() {
         if (input.isKeyPressed(ALLEGRO_KEY_ESCAPE))
             running = false;
 
+        if (input.isKeyJustPressed(ALLEGRO_KEY_F)) {
+            circle.toggleFill();
+        }
+
         // Переміщення прямокутника клавішами
         if (input.isKeyPressed(ALLEGRO_KEY_LEFT))
             rect.pos.x -= rectSpeed;
@@ -68,12 +76,16 @@ int main() {
         circle.center.x = input.mouseX;
         circle.center.y = input.mouseY;
 
+        triangle.update();
+
         // --- Рендеринг ---
         renderer.clear(Color(0, 0, 0));  // очищення екрану
         line.draw(renderer);
         rect.draw(renderer);
         circle.draw(renderer);
+        triangle.draw(renderer);
         renderer.drawFramebuffer();
+        input.update();
     }
 
     al_destroy_timer(timer);

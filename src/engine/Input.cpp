@@ -14,5 +14,14 @@ void Input::handleEvent(ALLEGRO_EVENT& ev) {
         mouseButtons[ev.mouse.button - 1] = false;
 }
 
+void Input::update() {
+    for (int i = 0; i < ALLEGRO_KEY_MAX; ++i) {
+        previousKeys[i] = keys[i];
+    }
+}
+
 bool Input::isKeyPressed(int key) { return keys[key]; }
 bool Input::isMousePressed(int button) { return mouseButtons[button]; }
+bool Input::isKeyJustPressed(int keycode) {
+    return keys[keycode] && !previousKeys[keycode];
+}
