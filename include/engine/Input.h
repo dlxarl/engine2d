@@ -10,7 +10,7 @@ public:
     float mouseX = 0, mouseY = 0;
 
     void handleEvent(ALLEGRO_EVENT& ev);
-    void update(); // новий метод для оновлення попереднього стану
+    void update();
     bool isKeyPressed(int key);
     bool isMousePressed(int button);
     bool isKeyJustPressed(int keycode);

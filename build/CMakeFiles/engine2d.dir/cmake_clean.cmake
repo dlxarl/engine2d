@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.o.d"
   "CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o"
   "CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o.d"
+  "CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o"
+  "CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o.d"
   "CMakeFiles/engine2d.dir/src/engine/engine.cpp.o"
   "CMakeFiles/engine2d.dir/src/engine/engine.cpp.o.d"
   "CMakeFiles/engine2d.dir/src/main.cpp.o"

@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/illa/Documents/dev/C/project-pgk/src/engine/LineShape.cpp" "CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.o.d"
   "/Users/illa/Documents/dev/C/project-pgk/src/engine/RectangleShape.cpp" "CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.o.d"
   "/Users/illa/Documents/dev/C/project-pgk/src/engine/Renderer.cpp" "CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o.d"
+  "/Users/illa/Documents/dev/C/project-pgk/src/engine/TriangleShape.cpp" "CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o.d"
   "/Users/illa/Documents/dev/C/project-pgk/src/engine/engine.cpp" "CMakeFiles/engine2d.dir/src/engine/engine.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/engine/engine.cpp.o.d"
   "/Users/illa/Documents/dev/C/project-pgk/src/main.cpp" "CMakeFiles/engine2d.dir/src/main.cpp.o" "gcc" "CMakeFiles/engine2d.dir/src/main.cpp.o.d"
   )

@@ -1,9 +1,7 @@
 #pragma once
 #include <allegro5/allegro.h>
-#include <vector>
 #include "Input.h"
 #include "Renderer.h"
-#include "Shape.h"
 #include "LineShape.h"
 #include <CircleShape.h>
 #include <RectangleShape.h>

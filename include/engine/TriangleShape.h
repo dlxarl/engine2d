@@ -9,8 +9,10 @@ public:
     float size;
     float angle = 0.0f;
     float hue = 0.0f;
+    bool filled = false;
 
     TriangleShape(Point2D c, float s, Color col);
     void draw(Renderer& r) override;
-    void update(); // обертання і зміна кольору
+    void update();
+    void toggleFill();
 };

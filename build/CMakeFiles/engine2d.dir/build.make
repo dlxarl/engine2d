@@ -142,10 +142,24 @@ CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/illa/Documents/dev/C/project-pgk/src/engine/Renderer.cpp -o CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.s
 
+CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o: CMakeFiles/engine2d.dir/flags.make
+CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o: /Users/illa/Documents/dev/C/project-pgk/src/engine/TriangleShape.cpp
+CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o: CMakeFiles/engine2d.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o -MF CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o.d -o CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o -c /Users/illa/Documents/dev/C/project-pgk/src/engine/TriangleShape.cpp
+
+CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/illa/Documents/dev/C/project-pgk/src/engine/TriangleShape.cpp > CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.i
+
+CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/illa/Documents/dev/C/project-pgk/src/engine/TriangleShape.cpp -o CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.s
+
 CMakeFiles/engine2d.dir/src/engine/engine.cpp.o: CMakeFiles/engine2d.dir/flags.make
 CMakeFiles/engine2d.dir/src/engine/engine.cpp.o: /Users/illa/Documents/dev/C/project-pgk/src/engine/engine.cpp
 CMakeFiles/engine2d.dir/src/engine/engine.cpp.o: CMakeFiles/engine2d.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/engine2d.dir/src/engine/engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine2d.dir/src/engine/engine.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine2d.dir/src/engine/engine.cpp.o -MF CMakeFiles/engine2d.dir/src/engine/engine.cpp.o.d -o CMakeFiles/engine2d.dir/src/engine/engine.cpp.o -c /Users/illa/Documents/dev/C/project-pgk/src/engine/engine.cpp
 
 CMakeFiles/engine2d.dir/src/engine/engine.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/engine2d.dir/src/engine/engine.cpp.s: cmake_force
 CMakeFiles/engine2d.dir/src/main.cpp.o: CMakeFiles/engine2d.dir/flags.make
 CMakeFiles/engine2d.dir/src/main.cpp.o: /Users/illa/Documents/dev/C/project-pgk/src/main.cpp
 CMakeFiles/engine2d.dir/src/main.cpp.o: CMakeFiles/engine2d.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/engine2d.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/engine2d.dir/src/main.cpp.o"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/engine2d.dir/src/main.cpp.o -MF CMakeFiles/engine2d.dir/src/main.cpp.o.d -o CMakeFiles/engine2d.dir/src/main.cpp.o -c /Users/illa/Documents/dev/C/project-pgk/src/main.cpp
 
 CMakeFiles/engine2d.dir/src/main.cpp.i: cmake_force
@@ -177,6 +191,7 @@ engine2d_OBJECTS = \
 "CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.o" \
 "CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.o" \
 "CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o" \
+"CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o" \
 "CMakeFiles/engine2d.dir/src/engine/engine.cpp.o" \
 "CMakeFiles/engine2d.dir/src/main.cpp.o"
 
@@ -188,11 +203,12 @@ engine2d: CMakeFiles/engine2d.dir/src/engine/Input.cpp.o
 engine2d: CMakeFiles/engine2d.dir/src/engine/LineShape.cpp.o
 engine2d: CMakeFiles/engine2d.dir/src/engine/RectangleShape.cpp.o
 engine2d: CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.o
+engine2d: CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o
 engine2d: CMakeFiles/engine2d.dir/src/engine/engine.cpp.o
 engine2d: CMakeFiles/engine2d.dir/src/main.cpp.o
 engine2d: CMakeFiles/engine2d.dir/build.make
 engine2d: CMakeFiles/engine2d.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable engine2d"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable engine2d"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/engine2d.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
