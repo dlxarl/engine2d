@@ -9,7 +9,7 @@ void CircleShape::toggleFill() {
 
 void CircleShape::draw(Renderer& r) {
     if (filled) {
-        // Заповнення кола
+        // Circle filling
         for (int y = -radius; y <= radius; y++) {
             for (int x = -radius; x <= radius; x++) {
                 if (x*x + y*y <= radius*radius) {
@@ -18,7 +18,7 @@ void CircleShape::draw(Renderer& r) {
             }
         }
     } else {
-        // Контур кола (алгоритм Брезенхема)
+        // Outline
         int x = 0, y = radius;
         int d = 1 - radius;
 

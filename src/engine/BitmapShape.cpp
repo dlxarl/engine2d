@@ -17,12 +17,25 @@ BitmapShape::~BitmapShape() {
 }
 
 void BitmapShape::draw(Renderer& r) {
-    if (bitmap) {
-        al_draw_bitmap(bitmap, position.x, position.y, 0);
-    } else {
-        // Якщо зображення не завантажилось — малюємо кольоровий квадрат
-        al_draw_filled_rectangle(position.x, position.y,
-                                 position.x + 100, position.y + 100,
-                                 al_map_rgb(color.r, color.g, color.b));
+    if (!bitmap) return;
+
+    int bmpW = al_get_bitmap_width(bitmap);
+    int bmpH = al_get_bitmap_height(bitmap);
+
+    ALLEGRO_LOCKED_REGION* region = al_lock_bitmap(bitmap, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
+    if (!region) return;
+
+    for (int y = 0; y < bmpH; ++y) {
+        for (int x = 0; x < bmpW; ++x) {
+            ALLEGRO_COLOR alColor = al_get_pixel(bitmap, x, y);
+            unsigned char rC, gC, bC, aC;
+            al_unmap_rgba(alColor, &rC, &gC, &bC, &aC);
+
+            if (aC > 0) {
+                r.setPixel(position.x + x, position.y + y, Color(rC, gC, bC));
+            }
+        }
     }
+
+    al_unlock_bitmap(bitmap);
 }

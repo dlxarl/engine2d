@@ -14,7 +14,7 @@ void TriangleShape::update() {
     hue += 0.5f;
     if (hue > 360.0f) hue -= 360.0f;
 
-    // Перетворення HSL → RGB (спрощено через синус)
+    // HSL -> RGB
     float r = std::abs(std::sin(hue * 0.01745f));
     float g = std::abs(std::sin((hue + 120) * 0.01745f));
     float b = std::abs(std::sin((hue + 240) * 0.01745f));
@@ -32,7 +32,7 @@ void TriangleShape::draw(Renderer& r) {
     }
 
     if (filled) {
-        // Скан-лайн заповнення трикутника
+        // Triangle fill
         int minY = std::min({v[0].y, v[1].y, v[2].y});
         int maxY = std::max({v[0].y, v[1].y, v[2].y});
 

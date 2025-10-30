@@ -1,8 +1,6 @@
 #include "Engine.h"
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
 #include <iostream>
-#include <cmath>
 #include <allegro5/allegro_image.h>
 #include "BitmapShape.h"
 #include "TriangleShape.h"
