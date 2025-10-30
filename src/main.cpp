@@ -5,6 +5,7 @@
 #include "BitmapShape.h"
 #include "TriangleShape.h"
 #include <filesystem>
+#include "AnimatedBitmap.h"
 
 int main(int argc, char** argv) {
     (void)argc;
@@ -26,7 +27,8 @@ int main(int argc, char** argv) {
     RectangleShape rect(Point2D(300, 100), 150, 100, Color(0, 255, 0), Color(0, 0, 0));
     CircleShape circle(Point2D(400, 400), 80, Color(0, 0, 255));
     TriangleShape triangle(Point2D(600, 300), 60, Color(255, 255, 0));
-    BitmapShape image("assets/test.png", Point2D(400, 300));
+    BitmapShape image("assets/test_static.png", Point2D(400, 300));
+    AnimatedBitmap anim("assets/test_anim.png", 130, 130, 4, 0.2f, Point2D(200, 200));
 
     // Allegro for events
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
@@ -78,10 +80,10 @@ int main(int argc, char** argv) {
         if (input.isKeyPressed(ALLEGRO_KEY_DOWN))
             rect.pos.y += rectSpeed;
             
-        // Рух лінії синусом
-        //line.p1.y = 100 + sin(lineMove) * 30;
-        //line.p2.y = 100 + sin(lineMove) * 30;
-        //lineMove += 0.05f;
+        // Line movement
+        // line.p1.y = 100 + sin(lineMove) * 30;
+        // line.p2.y = 100 + sin(lineMove) * 30;
+        // lineMove += 0.05f;
         
 
         // Circle follows cursor
@@ -97,6 +99,8 @@ int main(int argc, char** argv) {
         circle.draw(renderer);
         triangle.draw(renderer);
         image.draw(renderer);
+        anim.update(1.0f / 60.0f); // 60 FPS
+        anim.draw(renderer);
         renderer.drawFramebuffer();
         input.update();
     }

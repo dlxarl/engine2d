@@ -19,7 +19,9 @@ add_executable(engine2d ${SOURCES}
         include/engine/TriangleShape.h
         src/engine/TriangleShape.cpp
         include/engine/BitmapShape.h
-        src/engine/BitmapShape.cpp)
+        src/engine/BitmapShape.cpp
+        include/engine/AnimatedBitmap.h
+        src/engine/AnimatedBitmap.cpp)
 
 # Include our headers
 target_include_directories(engine2d PRIVATE
