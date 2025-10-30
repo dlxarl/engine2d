@@ -294,6 +294,30 @@ src/engine/Renderer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine2d.dir/build.make CMakeFiles/engine2d.dir/src/engine/Renderer.cpp.s
 .PHONY : src/engine/Renderer.cpp.s
 
+src/engine/TriangleShape.o: src/engine/TriangleShape.cpp.o
+.PHONY : src/engine/TriangleShape.o
+
+# target to build an object file
+src/engine/TriangleShape.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine2d.dir/build.make CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.o
+.PHONY : src/engine/TriangleShape.cpp.o
+
+src/engine/TriangleShape.i: src/engine/TriangleShape.cpp.i
+.PHONY : src/engine/TriangleShape.i
+
+# target to preprocess a source file
+src/engine/TriangleShape.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine2d.dir/build.make CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.i
+.PHONY : src/engine/TriangleShape.cpp.i
+
+src/engine/TriangleShape.s: src/engine/TriangleShape.cpp.s
+.PHONY : src/engine/TriangleShape.s
+
+# target to generate assembly for a file
+src/engine/TriangleShape.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/engine2d.dir/build.make CMakeFiles/engine2d.dir/src/engine/TriangleShape.cpp.s
+.PHONY : src/engine/TriangleShape.cpp.s
+
 src/engine/engine.o: src/engine/engine.cpp.o
 .PHONY : src/engine/engine.o
 
@@ -370,6 +394,9 @@ help:
 	@echo "... src/engine/Renderer.o"
 	@echo "... src/engine/Renderer.i"
 	@echo "... src/engine/Renderer.s"
+	@echo "... src/engine/TriangleShape.o"
+	@echo "... src/engine/TriangleShape.i"
+	@echo "... src/engine/TriangleShape.s"
 	@echo "... src/engine/engine.o"
 	@echo "... src/engine/engine.i"
 	@echo "... src/engine/engine.s"

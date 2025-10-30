@@ -17,7 +17,9 @@ file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 add_executable(engine2d ${SOURCES}
         include/engine/TriangleShape.h
-        src/engine/TriangleShape.cpp)
+        src/engine/TriangleShape.cpp
+        include/engine/BitmapShape.h
+        src/engine/BitmapShape.cpp)
 
 # Include our headers
 target_include_directories(engine2d PRIVATE

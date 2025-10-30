@@ -3,24 +3,34 @@
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <cmath>
+#include <allegro5/allegro_image.h>
+#include "BitmapShape.h"
 #include "TriangleShape.h"
+#include <filesystem>
 
 int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
-    // Ініціалізація рушія
+
+    // Engine initialization
     Engine engine(800, 600, "2D Engine Full Demo");
+
+    // DEBUG - remove later
+    std::cout << "Current working dir: " << std::filesystem::current_path() << std::endl;
 
     Renderer renderer(800, 600);
     Input input;
 
-    // Створюємо об’єкти
+    al_init_image_addon();
+
+    // Deploy objects
     LineShape line(Point2D(100, 100), Point2D(700, 100), Color(255, 0, 0));
     RectangleShape rect(Point2D(300, 100), 150, 100, Color(0, 255, 0), Color(0, 0, 0));
     CircleShape circle(Point2D(400, 400), 80, Color(0, 0, 255));
     TriangleShape triangle(Point2D(600, 300), 60, Color(255, 255, 0));
+    BitmapShape image("assets/test.png", Point2D(400, 300));
 
-    // Allegro для подій
+    // Allegro for events
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
     ALLEGRO_DISPLAY* display = al_create_display(800, 600);
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
@@ -48,7 +58,7 @@ int main(int argc, char** argv) {
                 running = false;
         }
 
-        // --- Оновлення стану ---
+        // State update
         if (input.isKeyPressed(ALLEGRO_KEY_ESCAPE))
             running = false;
 
@@ -56,7 +66,11 @@ int main(int argc, char** argv) {
             circle.toggleFill();
         }
 
-        // Переміщення прямокутника клавішами
+        if (input.isKeyJustPressed(ALLEGRO_KEY_T)) {
+            triangle.toggleFill();
+        }
+
+        // Move rectangle with arrows
         if (input.isKeyPressed(ALLEGRO_KEY_LEFT))
             rect.pos.x -= rectSpeed;
         if (input.isKeyPressed(ALLEGRO_KEY_RIGHT))
@@ -72,18 +86,19 @@ int main(int argc, char** argv) {
         //lineMove += 0.05f;
         
 
-        // Коло рухається за мишею
+        // Circle follows cursor
         circle.center.x = input.mouseX;
         circle.center.y = input.mouseY;
 
         triangle.update();
 
-        // --- Рендеринг ---
-        renderer.clear(Color(0, 0, 0));  // очищення екрану
+        // Rendering
+        renderer.clear(Color(0, 0, 0));
         line.draw(renderer);
         rect.draw(renderer);
         circle.draw(renderer);
         triangle.draw(renderer);
+        image.draw(renderer);
         renderer.drawFramebuffer();
         input.update();
     }
