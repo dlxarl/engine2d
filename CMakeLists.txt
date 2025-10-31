@@ -28,7 +28,9 @@ add_executable(engine2d ${SOURCES}
         src/SceneManager.cpp
         src/SceneManager.h
         src/scenes/headers/Scene2.h
-        src/scenes/Scene2.cpp)
+        src/scenes/Scene2.cpp
+        src/scenes/SnakeGame.cpp
+        src/scenes/headers/SnakeGame.h)
 
 # Include our headers
 target_include_directories(engine2d PRIVATE
