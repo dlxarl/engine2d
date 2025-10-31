@@ -7,7 +7,7 @@ class Renderer {
 private:
     int width, height;
     std::vector<Color> framebuffer;
-    ALLEGRO_DISPLAY* display; // ← додано
+    ALLEGRO_DISPLAY* display;
 
 public:
     Renderer(int w, int h);
@@ -16,5 +16,5 @@ public:
     void drawFramebuffer();
     int getWidth() const { return width; }
     int getHeight() const { return height; }
-    ALLEGRO_DISPLAY* getDisplay() const; // ← доступ до дисплея
+    ALLEGRO_DISPLAY* getDisplay() const;
 };

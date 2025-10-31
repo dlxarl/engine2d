@@ -1,0 +1,5 @@
+*.d linguist-generated=true
+*.am linguist-generated=true
+*.make linguist-generated=true
+*.cpp linguist-language=C++
+*.h linguist-language=C++
