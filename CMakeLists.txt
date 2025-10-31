@@ -21,7 +21,16 @@ add_executable(engine2d ${SOURCES}
         include/engine/BitmapShape.h
         src/engine/BitmapShape.cpp
         include/engine/AnimatedBitmap.h
-        src/engine/AnimatedBitmap.cpp)
+        src/engine/AnimatedBitmap.cpp
+        src/scenes/headers/Scene.h
+        src/scenes/headers/Scene1.h
+        src/scenes/Scene1.cpp
+        src/SceneManager.cpp
+        src/SceneManager.h
+        src/scenes/headers/Scene2.h
+        src/scenes/Scene2.cpp
+        src/scenes/SnakeGame.cpp
+        src/scenes/headers/SnakeGame.h)
 
 # Include our headers
 target_include_directories(engine2d PRIVATE

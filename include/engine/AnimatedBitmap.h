@@ -17,7 +17,9 @@ public:
     float frameDuration; // frame duration
     float frameTimer = 0.0f;
 
-    AnimatedBitmap(const std::string& path, int fw, int fh, int frames, float duration, Point2D pos);
+    float scale = 1.0f;
+
+    AnimatedBitmap(const std::string& path, int fw, int fh, int frames, float duration, Point2D pos, float sc = 1.0f);
     ~AnimatedBitmap();
 
     void update(float deltaTime);

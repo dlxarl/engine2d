@@ -19,3 +19,6 @@
 # Temporary files
 .tmp/
 temp/
+
+#Backup files
+backup/

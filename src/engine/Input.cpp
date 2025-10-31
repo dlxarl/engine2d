@@ -20,8 +20,8 @@ void Input::update() {
     }
 }
 
-bool Input::isKeyPressed(int key) { return keys[key]; }
+bool Input::isKeyPressed(int key) const { return keys[key]; }
 bool Input::isMousePressed(int button) { return mouseButtons[button]; }
-bool Input::isKeyJustPressed(int keycode) {
+bool Input::isKeyJustPressed(int keycode) const {
     return keys[keycode] && !previousKeys[keycode];
 }
