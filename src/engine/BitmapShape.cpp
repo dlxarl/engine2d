@@ -17,13 +17,19 @@ BitmapShape::~BitmapShape() {
 }
 
 void BitmapShape::draw(Renderer& r) {
-    if (!bitmap) return;
+    if (!bitmap) {
+        std::cerr << "[BitmapShape] bitmap is null!" << std::endl;
+        return;
+    }
 
     int bmpW = al_get_bitmap_width(bitmap);
     int bmpH = al_get_bitmap_height(bitmap);
 
     ALLEGRO_LOCKED_REGION* region = al_lock_bitmap(bitmap, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
-    if (!region) return;
+    if (!region) {
+        std::cerr << "[BitmapShape] Failed to lock bitmap!" << std::endl;
+        return;
+    }
 
     for (int y = 0; y < bmpH; ++y) {
         for (int x = 0; x < bmpW; ++x) {

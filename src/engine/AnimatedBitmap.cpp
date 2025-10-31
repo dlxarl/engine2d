@@ -31,10 +31,22 @@ void AnimatedBitmap::update(float deltaTime) {
 }
 
 void AnimatedBitmap::draw(Renderer& r) {
-    if (!spriteSheet) return;
+    if (!spriteSheet) {
+        std::cerr << "[AnimatedBitmap] spriteSheet is null!" << std::endl;
+        return;
+    }
 
     int sheetWidth = al_get_bitmap_width(spriteSheet);
+    if (sheetWidth <= 0 || frameWidth <= 0 || frameHeight <= 0) {
+        std::cerr << "[AnimatedBitmap] Invalid frame dimensions!" << std::endl;
+        return;
+    }
+
     int columns = sheetWidth / frameWidth;
+    if (columns == 0) {
+        std::cerr << "[AnimatedBitmap] No columns in sprite sheet!" << std::endl;
+        return;
+    }
 
     int row = currentFrame / columns;
     int col = currentFrame % columns;

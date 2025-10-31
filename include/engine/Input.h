@@ -11,7 +11,7 @@ public:
 
     void handleEvent(ALLEGRO_EVENT& ev);
     void update();
-    bool isKeyPressed(int key);
+    bool isKeyPressed(int key) const;
     bool isMousePressed(int button);
-    bool isKeyJustPressed(int keycode);
+    bool isKeyJustPressed(int keycode) const;
 };
