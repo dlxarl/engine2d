@@ -5,30 +5,35 @@
 
 Engine::Engine(int width, int height, const char* title)
     : renderer(width, height), running(true),
-    line(Point2D(50,50), Point2D(200, 200), Color(255, 0, 0)),
-    rectangle(Point2D(300, 100), 150, 100, Color(0, 255, 0)),
-    circle(Point2D(500, 300), 80, Color(0, 0, 255))
-    {
-        al_init();
-        al_install_keyboard();
-        al_install_mouse();
-
-        display = al_create_display(width, height);
-        eventQueue = al_create_event_queue();
-        timer = al_create_timer(1.0/ 60.0);
-
-        al_register_event_source(eventQueue, al_get_display_event_source(display));
-        al_register_event_source(eventQueue, al_get_timer_event_source(timer));
-        al_register_event_source(eventQueue, al_get_keyboard_event_source());
-        al_register_event_source(eventQueue, al_get_mouse_event_source());
-        
-        al_start_timer(timer);
+      line(Point2D(50,50), Point2D(200, 200), Color(255, 0, 0)),
+      rectangle(Point2D(300, 100), 150, 100, Color(0, 255, 0)),
+      circle(Point2D(500, 300), 80, Color(0, 0, 255))
+{
+    if (!al_init()) {
+        std::cerr << "Failed to initialize Allegro!" << std::endl;
+        running = false;
+        return;
     }
+
+    al_install_keyboard();
+    al_install_mouse();
+
+    eventQueue = al_create_event_queue();
+    timer = al_create_timer(1.0 / 60.0);
+
+    // Використовуємо дисплей із Renderer
+    al_register_event_source(eventQueue, al_get_display_event_source(renderer.getDisplay()));
+    al_register_event_source(eventQueue, al_get_timer_event_source(timer));
+    al_register_event_source(eventQueue, al_get_keyboard_event_source());
+    al_register_event_source(eventQueue, al_get_mouse_event_source());
+
+    al_start_timer(timer);
+}
 
 Engine::~Engine() {
     if (timer) al_destroy_timer(timer);
     if (eventQueue) al_destroy_event_queue(eventQueue);
-    if (display) al_destroy_display(display);
+    // Дисплей тепер знищується у Renderer::~Renderer()
     al_uninstall_system();
 }
 
@@ -46,7 +51,7 @@ void Engine::handleEvents() {
     }
 }
 
-void Engine::update(){
+void Engine::update() {
     circle.center.x = input.mouseX;
     circle.center.y = input.mouseY;
 }
@@ -60,7 +65,7 @@ void Engine::render() {
 }
 
 void Engine::run() {
-    while(running){
+    while (running) {
         handleEvents();
         update();
         render();
