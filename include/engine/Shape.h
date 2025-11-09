@@ -6,5 +6,8 @@ class Shape {
 public:
     Color color;
     Shape(Color c) : color(c) {}
+
+    virtual ~Shape() = default;   // 🔥 ось це потрібно
+
     virtual void draw(Renderer& renderer) = 0;
 };

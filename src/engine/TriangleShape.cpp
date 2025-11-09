@@ -1,7 +1,8 @@
 #include "TriangleShape.h"
 #include "LineShape.h"
 #include <cmath>
-
+#include <algorithm>
+#include <vector>
 TriangleShape::TriangleShape(Point2D c, float s, Color col)
     : Shape(col), center(c), size(s) {}
 

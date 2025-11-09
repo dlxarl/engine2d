@@ -34,11 +34,11 @@ add_executable(engine2d ${SOURCES}
 
 # Include our headers
 target_include_directories(engine2d PRIVATE
-  ${CMAKE_SOURCE_DIR}/include/engine
-  ${CMAKE_SOURCE_DIR}/src/engine
+        ${CMAKE_SOURCE_DIR}/include/engine
+        ${CMAKE_SOURCE_DIR}/src/engine
 )
 
-if(WIN32)
+if(WIN32 AND NOT MINGW)
   # --- Windows: recommend using vcpkg or prebuilt Allegro CMake targets ---
   # Recommended workflow:
   # 1) Install vcpkg: https://github.com/microsoft/vcpkg
@@ -51,13 +51,13 @@ if(WIN32)
   if(Allegro5_FOUND)
     # Link against typical imported targets (names may vary depending on packaging)
     target_link_libraries(engine2d PRIVATE
-      Allegro::allegro
-      Allegro::allegro_primitives
-      Allegro::allegro_image
-      Allegro::allegro_font
-      Allegro::allegro_ttf
-      Allegro::allegro_audio
-      Allegro::allegro_acodec
+            Allegro::allegro
+            Allegro::allegro_primitives
+            Allegro::allegro_image
+            Allegro::allegro_font
+            Allegro::allegro_ttf
+            Allegro::allegro_audio
+            Allegro::allegro_acodec
     )
   else()
     message(FATAL_ERROR "Allegro not found on Windows. Install via vcpkg and set CMAKE_TOOLCHAIN_FILE or provide Allegro CMake config.")
@@ -68,14 +68,14 @@ else()
   find_package(PkgConfig REQUIRED)
 
   set(ALLEGRO_PKG
-    allegro-5
-    allegro_main-5
-    allegro_primitives-5
-    allegro_image-5
-    allegro_font-5
-    allegro_ttf-5
-    allegro_audio-5
-    allegro_acodec-5
+          allegro-5
+          allegro_main-5
+          allegro_primitives-5
+          allegro_image-5
+          allegro_font-5
+          allegro_ttf-5
+          allegro_audio-5
+          allegro_acodec-5
   )
 
   # Use pkg_check_modules to gather include dirs and libs

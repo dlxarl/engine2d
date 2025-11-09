@@ -1,7 +1,7 @@
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/engine2d.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/edit_cache.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/rebuild_cache.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/list_install_components.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/install.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/install/local.dir
-/Users/illa/Documents/dev/C/project-pgk/build/CMakeFiles/install/strip.dir
+D:/PGK project/engine2d/build/CMakeFiles/engine2d.dir
+D:/PGK project/engine2d/build/CMakeFiles/edit_cache.dir
+D:/PGK project/engine2d/build/CMakeFiles/rebuild_cache.dir
+D:/PGK project/engine2d/build/CMakeFiles/list_install_components.dir
+D:/PGK project/engine2d/build/CMakeFiles/install.dir
+D:/PGK project/engine2d/build/CMakeFiles/install/local.dir
+D:/PGK project/engine2d/build/CMakeFiles/install/strip.dir
