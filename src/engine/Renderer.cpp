@@ -35,7 +35,7 @@ void Renderer::setPixel(int x, int y, Color c) {
 void Renderer::drawFramebuffer() {
     if (!display || !texture) return;
 
-    // Записуємо у texture (один раз за кадр) — швидше, ніж al_put_pixel на бек-буфері
+    // Записуємо у texture (один раз за кадр) 
     ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(texture, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_WRITEONLY);
     if (!lr) {
         // fallback: якщо не змогли заблокувати — очистити і flip

@@ -21,11 +21,11 @@ AnimatedBitmap::AnimatedBitmap(const std::string& path, int fw, int fh, int fram
         return;
     }
 
-    // 🔥 Один раз копіюємо всі пікселі у CPU‑буфер
-    int sheetWidth = al_get_bitmap_width(spriteSheet);
+    
+    int sheetWidth = al_get_bitmap_width(spriteSheet); // Один раз копіюємо всі пікселі у CPU‑буфер
     int sheetHeight = al_get_bitmap_height(spriteSheet);
 
-    ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(spriteSheet, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_READONLY);
+    ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(spriteSheet, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_READONLY); //Ця команда дозволяє безпосередньо читати пікселі з відеопам’яті
     if (!lr) {
         std::cerr << "Failed to lock sprite sheet!" << std::endl;
         return;
