@@ -10,7 +10,7 @@
 #include "Input.h"
 #include "SceneManager.h"
 #include "scenes/headers/Scene1.h"
-#include "scenes/headers/SnakeGame.h"
+#include "scenes/headers/SlotGame.h"
 
 int main(int argc, char** argv) {
     (void)argc;
@@ -36,6 +36,9 @@ int main(int argc, char** argv) {
     Renderer renderer(800, 600);
     Input input;
 
+    // Set title
+    al_set_window_title(renderer.getDisplay(), "Slot Machine Game");
+
     // Event system
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
@@ -49,7 +52,7 @@ int main(int argc, char** argv) {
     al_start_timer(timer);
 
     // Scene manager with initial scene
-    SceneManager manager(new Scene1());
+    SceneManager manager(new SlotGame());
 
     bool running = true;
 

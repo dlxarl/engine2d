@@ -7,7 +7,7 @@ Scene1::Scene1()
       circle(Point2D(400, 400), 80, Color(0, 0, 255)),
       triangle(Point2D(600, 300), 60, Color(255, 255, 0)),
       image("assets/test_static.png", Point2D(400, 300)),
-      anim("assets/samurai/ATTACK.png", 96, 96, 7, 0.2f, Point2D(200, 200), 4.0f)
+      anim("assets/samurai/ATTACK.png", 96, 96, 7, 0.05f, Point2D(200, 200), 4.0f)
 {}
 
 void Scene1::update(float dt, const Input& input) {
@@ -15,18 +15,18 @@ void Scene1::update(float dt, const Input& input) {
     anim.update(dt);
 
     // Рух прямокутника стрілками
-    float rectSpeed = 2.0f;
+    float animSpeed = 2.0f;
     if (input.isKeyPressed(ALLEGRO_KEY_LEFT)) {
-        rect.pos.x -= rectSpeed;
+        anim.position.x -= animSpeed;
     }
     if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) {
-        rect.pos.x += rectSpeed;
+        anim.position.x += animSpeed;
     }
     if (input.isKeyPressed(ALLEGRO_KEY_UP)) {
-        rect.pos.y -= rectSpeed;
+        anim.position.y -= animSpeed;
     }
     if (input.isKeyPressed(ALLEGRO_KEY_DOWN)) {
-        rect.pos.y += rectSpeed;
+        anim.position.y += animSpeed;
     }
 
     // Circle follows cursor

@@ -1,0 +1,84 @@
+#include "headers/SlotGame.h"
+#include "DefinePoint.h"
+
+DefinePoint devPointTool;
+
+SlotGame::SlotGame()
+    : background("assets/img/bg.png", Point2D(0, 0)),
+      machine("assets/img/slot-machine.png", Point2D(0, 0)),
+      leverUp("assets/img/leverUp.png", Point2D(0, 0)),
+      leverDown("assets/img/leverDown.png", Point2D(0, 0)),
+      symbol1("assets/img/seven.png", Point2D(235, 300)),
+      symbol2("assets/img/cherry.png", Point2D(365, 300)),
+      symbol3("assets/img/bell.png", Point2D(495, 300))
+{
+    devPointTool.setEnabled(false);
+
+    if (backgroundAudio.load("assets/audio/background.ogg")) {
+        backgroundAudio.setVolume(0.6f);
+        backgroundAudio.play(true);
+    }
+
+    spinAudio.load("assets/audio/spin.ogg");
+    coinsAudio.load("assets/audio/coins.ogg");
+    winAudio.load("assets/audio/win.ogg");
+    jackpotAudio.load("assets/audio/jackpot.ogg");
+}
+
+void SlotGame::update(float dt, const Input& input) {
+    float mx = input.mouseX;
+    float my = input.mouseY;
+
+    // курсор
+    if (mx >= 672 && mx <= 751 && my >= 300 && my <= 600) {
+        al_set_system_mouse_cursor(al_get_current_display(), ALLEGRO_SYSTEM_MOUSE_CURSOR_LINK);
+    } else {
+        al_set_system_mouse_cursor(al_get_current_display(), ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+    }
+
+    // старт спіну: активуємо важіль лише якщо був неактивний
+    if (!leverActive && input.isMouseJustPressed(0)) {
+        if (mx >= 672 && mx <= 751 && my >= 300 && my <= 600) {
+            leverActive = true;
+            spinTimer = 1.5f;
+            spinAudio.play(false);
+        }
+    }
+
+    // таймер спіну
+    if (leverActive) {
+        spinTimer -= dt;
+        if (spinTimer <= 0.0f) {
+            leverActive = false;
+            spinAudio.stop();
+            backgroundAudio.setVolume(0.0f);
+            bgMutedForEffect = true;
+
+            sleep(1);
+
+            coinsAudio.play(false);
+            jackpotAudio.play(false);
+        }
+    }
+
+    if (bgMutedForEffect) {
+        if (!coinsAudio.isPlaying() && !jackpotAudio.isPlaying()) {
+            backgroundAudio.setVolume(1.0f);
+            bgMutedForEffect = false;
+        }
+    }
+}
+
+void SlotGame::draw(Renderer& r) {
+    background.draw(r);
+    machine.draw(r);
+
+    if (leverActive)
+        leverDown.draw(r);
+    else
+        leverUp.draw(r);
+
+    symbol1.draw(r);
+    symbol2.draw(r);
+    symbol3.draw(r);
+}

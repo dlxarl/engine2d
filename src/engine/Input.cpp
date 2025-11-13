@@ -18,10 +18,23 @@ void Input::update() {
     for (int i = 0; i < ALLEGRO_KEY_MAX; ++i) {
         previousKeys[i] = keys[i];
     }
+    for (int i = 0; i < 5; ++i) {
+        previousMouseButtons[i] = mouseButtons[i];
+    }
 }
 
-bool Input::isKeyPressed(int key) const { return keys[key]; }
-bool Input::isMousePressed(int button) { return mouseButtons[button]; }
+bool Input::isKeyPressed(int key) const {
+    return keys[key];
+}
+
 bool Input::isKeyJustPressed(int keycode) const {
     return keys[keycode] && !previousKeys[keycode];
+}
+
+bool Input::isMousePressed(int button) const {
+    return mouseButtons[button];
+}
+
+bool Input::isMouseJustPressed(int button) const {
+    return mouseButtons[button] && !previousMouseButtons[button];
 }
