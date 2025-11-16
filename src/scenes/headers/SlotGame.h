@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "BitmapShape.h"
 #include "AudioPlayer.h"
+#include <array>
+#include <vector>
 
 class SlotGame : public Scene {
 private:
@@ -13,6 +15,10 @@ private:
     BitmapShape symbol2;
     BitmapShape symbol3;
 
+    BitmapShape seven;
+    BitmapShape cherry;
+    BitmapShape bell;
+
     AudioPlayer backgroundAudio;
     AudioPlayer spinAudio;
     AudioPlayer coinsAudio;
@@ -21,7 +27,13 @@ private:
 
     bool leverActive = false;
     float spinTimer = 0.0f;
+    float spinStepTimer = 0.0f;
     bool bgMutedForEffect = false;
+
+    // --- Для спіну ---
+    std::vector<BitmapShape*> slotSymbols; // усі доступні символи
+    std::array<int, 3> reels;           // фінальні символи для трьох барабанів
+
 
 public:
     SlotGame();
