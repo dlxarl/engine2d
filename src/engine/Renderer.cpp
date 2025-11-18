@@ -6,20 +6,15 @@
 
 Renderer::Renderer(int w, int h)
     : width(w), height(h), framebuffer(static_cast<size_t>(w) * static_cast<size_t>(h)) {
-    // Спробуємо увімкнути VSync (побажання) перед створенням дисплея
+    // Спробуємо увімкнути VSync перед створенням дисплея
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     display = al_create_display(width, height);
     if (!display) {
         std::cerr << "[Renderer] Failed to create display\n";
     }
-    texture = al_create_bitmap(width, height);
-    if (!texture) {
-        std::cerr << "[Renderer] Failed to create offscreen bitmap\n";
-    }
 }
 
 Renderer::~Renderer() {
-    if (texture) al_destroy_bitmap(texture);
     if (display) al_destroy_display(display);
 }
 
@@ -33,23 +28,20 @@ void Renderer::setPixel(int x, int y, Color c) {
 }
 
 void Renderer::drawFramebuffer() {
-    if (!display || !texture) return;
+    if (!display) return;
 
-    // Записуємо у texture (один раз за кадр) 
-    ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(texture, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_WRITEONLY);
+    // Малюємо напряму в backbuffer
+    ALLEGRO_BITMAP* back = al_get_backbuffer(display);
+    ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(back, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_WRITEONLY);
     if (!lr) {
-        // fallback: якщо не змогли заблокувати — очистити і flip
-        al_set_target_backbuffer(display);
-        al_clear_to_color(al_map_rgb(0,0,0));
-        al_flip_display();
+        std::cerr << "[Renderer] Failed to lock backbuffer\n";
         return;
     }
 
     uint8_t* base = reinterpret_cast<uint8_t*>(lr->data);
     int pitch = lr->pitch;
 
-    auto norm = [](float v)->float {
-        // Якщо значення в 0..255 діапазоні — нормалізуємо, інакше вважаємо 0..1
+    auto norm = [](float v) -> float {
         if (v > 1.0f) v /= 255.0f;
         return std::clamp(v, 0.0f, 1.0f);
     };
@@ -67,12 +59,6 @@ void Renderer::drawFramebuffer() {
         }
     }
 
-    al_unlock_bitmap(texture);
-
-    // Малюємо texture один раз на бек-буфер і фліп
-    al_set_target_backbuffer(display);
-    al_clear_to_color(al_map_rgb(0,0,0));
-    al_draw_bitmap(texture, 0, 0, 0);
+    al_unlock_bitmap(back);
     al_flip_display();
 }
-
