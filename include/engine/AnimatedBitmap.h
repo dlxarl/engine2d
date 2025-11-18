@@ -1,11 +1,11 @@
 #pragma once
 #include "Shape.h"
 #include "Point2D.h"
+#include "Renderer.h"
 #include <allegro5/allegro.h>
 #include <string>
 #include <vector>
 
-// Простий контейнер для кольору з альфою
 struct Pixel {
     unsigned char r, g, b, a;
 };
@@ -20,12 +20,11 @@ public:
     int totalFrames;
     int currentFrame = 0;
 
-    float frameDuration; // тривалість одного кадру
+    float frameDuration;
     float frameTimer = 0.0f;
 
     float scale = 1.0f;
 
-    // CPU‑буфер для пікселів спрайт‑аркуша
     std::vector<Pixel> pixels;
 
     AnimatedBitmap(const std::string& path, int fw, int fh, int frames,
@@ -34,4 +33,12 @@ public:
 
     void update(float deltaTime);
     void draw(Renderer& r) override;
+
+    void play(bool looped = true) { playing = true; loop = looped; }
+    void stop() { playing = false; }
+    void setFrame(int frame) { if (frame >= 0 && frame < totalFrames) currentFrame = frame; }
+
+private:
+    bool playing = false;
+    bool loop = false;
 };

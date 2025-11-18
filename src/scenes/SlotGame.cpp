@@ -7,7 +7,7 @@ DefinePoint devPointTool;
 
 SlotGame::SlotGame()
     : background("assets/img/bg.png", Point2D(0, 0)),
-      machine("assets/img/slot-machine.png", Point2D(0, 0)),
+      machine("assets/img/slot-machine.png", 816, 624, 2, 0.05f, Point2D(0, 0), 1.0f),
       leverUp("assets/img/leverUp.png", Point2D(0, 0)),
       leverDown("assets/img/leverDown.png", Point2D(0, 0)),
       symbol1("assets/img/seven.png", Point2D(235, 300)),
@@ -112,6 +112,17 @@ void SlotGame::update(float dt, const Input& input) {
             saveBalance();
         }
     }
+
+    if (jackpotAnimating) {
+    jackpotTimer -= dt;
+    machine.update(dt);
+
+    if (jackpotTimer <= 0.0f) {
+        jackpotAnimating = false;
+        machine.stop();
+        machine.setFrame(0);
+    }
+}
 }
 
 void SlotGame::applyWin() {
@@ -125,6 +136,10 @@ void SlotGame::applyWin() {
         std::cout << "JACKPOT! +" << win
                   << " | Balance: " << playerCredits << std::endl;
     winLine = new LineShape(Point2D(230, lineY), Point2D(595, lineY), Color(255, 0, 0));
+
+    jackpotAnimating = true;
+    jackpotTimer = 2.0f;
+    machine.play(true);
     } else if (reels[0] == reels[1] || reels[1] == reels[2] || reels[2] == reels[0]) {
         int win = betAmount * 2;
         playerCredits += win;

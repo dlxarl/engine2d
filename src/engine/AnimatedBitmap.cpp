@@ -58,10 +58,19 @@ AnimatedBitmap::~AnimatedBitmap() {
 }
 
 void AnimatedBitmap::update(float deltaTime) {
+    if (!playing) return;
+
     frameTimer += deltaTime;
     if (frameTimer >= frameDuration) {
         frameTimer = 0.0f;
-        currentFrame = (currentFrame + 1) % totalFrames;
+        currentFrame++;
+        if (currentFrame >= totalFrames) {
+            if (loop) currentFrame = 0;
+            else {
+                currentFrame = totalFrames - 1;
+                playing = false; // зупиняємось на останньому кадрі
+            }
+        }
     }
 }
 

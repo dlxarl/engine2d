@@ -4,13 +4,14 @@
 #include "AudioPlayer.h"
 #include "FileManager.h"
 #include "LineShape.h"
+#include "AnimatedBitmap.h"
 #include <array>
 #include <vector>
 
 class SlotGame : public Scene {
 private:
     BitmapShape background;
-    BitmapShape machine;
+    AnimatedBitmap machine;
     BitmapShape leverUp;
     BitmapShape leverDown;
     BitmapShape symbol1;
@@ -39,6 +40,9 @@ private:
 
     int playerCredits = 100;
     int betAmount = 10;
+
+    bool jackpotAnimating = false;
+    float jackpotTimer = 0.0f;
 
     void applyWin();
     void saveBalance();
