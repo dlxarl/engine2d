@@ -19,7 +19,6 @@ SlotGame::SlotGame()
 {
     devPointTool.setEnabled(false);
 
-    // Завантаження аудіо
     if (backgroundAudio.load("assets/audio/background.ogg")) {
         backgroundAudio.setVolume(0.6f);
         backgroundAudio.play(true);
@@ -29,36 +28,42 @@ SlotGame::SlotGame()
     winAudio.load("assets/audio/win.ogg");
     jackpotAudio.load("assets/audio/jackpot.ogg");
 
-    // Масив вказівників на символи
     slotSymbols.push_back(&seven);
     slotSymbols.push_back(&cherry);
     slotSymbols.push_back(&bell);
 
-    // Початковий стан
     leverActive = false;
     spinTimer = 0.0f;
     spinStepTimer = 0.0f;
     reels.fill(0);
+
+    loadBalance();
 }
 
 void SlotGame::update(float dt, const Input& input) {
     float mx = input.mouseX;
     float my = input.mouseY;
 
-    // Курсор на важіль
     if (mx >= 672 && mx <= 751 && my >= 300 && my <= 600) {
         al_set_system_mouse_cursor(al_get_current_display(), ALLEGRO_SYSTEM_MOUSE_CURSOR_LINK);
     } else {
         al_set_system_mouse_cursor(al_get_current_display(), ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
     }
 
-    // Старт спіну
     if (!leverActive && input.isMouseJustPressed(0)) {
         if (mx >= 672 && mx <= 751 && my >= 300 && my <= 600) {
             leverActive = true;
-            spinTimer = 0.8f;  // тривалість спіну
+            spinTimer = 0.8f;
             spinStepTimer = 0.0f;
             spinAudio.play(false);
+
+            winLine = nullptr;
+            extraWinLine = nullptr;
+
+            // списуємо ставку
+            playerCredits -= betAmount;
+            std::cout << "Spin started. Bet: -" << betAmount
+                      << " | Balance: " << playerCredits << std::endl;
         }
     }
 
@@ -66,15 +71,12 @@ void SlotGame::update(float dt, const Input& input) {
         spinTimer -= dt;
         spinStepTimer -= dt;
 
-        // Анімація обертання символів
         if (spinStepTimer <= 0.0f) {
             spinStepTimer = 0.05f;
-
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<int> dist(0, slotSymbols.size() - 1);
 
-            // Копіюємо випадкові символи в барабани
             symbol1 = *slotSymbols[dist(gen)];
             symbol1.position = Point2D(235, 300);
 
@@ -85,7 +87,6 @@ void SlotGame::update(float dt, const Input& input) {
             symbol3.position = Point2D(495, 300);
         }
 
-        // Кінець спіну
         if (spinTimer <= 0.0f) {
             leverActive = false;
 
@@ -93,12 +94,10 @@ void SlotGame::update(float dt, const Input& input) {
             std::mt19937 gen(rd());
             std::uniform_int_distribution<int> dist(0, slotSymbols.size() - 1);
 
-            // Вибираємо фінальні символи
             for (int i = 0; i < 3; i++) {
                 reels[i] = dist(gen);
             }
 
-            // Присвоюємо фінальні символи
             symbol1 = *slotSymbols[reels[0]];
             symbol1.position = Point2D(235, 300);
 
@@ -108,17 +107,65 @@ void SlotGame::update(float dt, const Input& input) {
             symbol3 = *slotSymbols[reels[2]];
             symbol3.position = Point2D(495, 300);
 
-            // Перевірка виграшу
-            if (reels[0] == reels[1] && reels[1] == reels[2]) {
-                jackpotAudio.play(false);
-                std::cout << "JACKPOT!" << std::endl;
-            } else if (reels[0] == reels[1] || reels[1] == reels[2] || reels[2] == reels[0]) {
-                winAudio.play(false);
-                coinsAudio.play(false);
-            }
+            applyWin();
+
+            saveBalance();
         }
     }
 }
+
+void SlotGame::applyWin() {
+    winLine = nullptr;
+    int lineY = 470;
+
+    if (reels[0] == reels[1] && reels[1] == reels[2]) {
+        int win = betAmount * 5;
+        playerCredits += win;
+        jackpotAudio.play(false);
+        std::cout << "JACKPOT! +" << win
+                  << " | Balance: " << playerCredits << std::endl;
+    winLine = new LineShape(Point2D(230, lineY), Point2D(595, lineY), Color(255, 0, 0));
+    } else if (reels[0] == reels[1] || reels[1] == reels[2] || reels[2] == reels[0]) {
+        int win = betAmount * 2;
+        playerCredits += win;
+        winAudio.play(false);
+        coinsAudio.play(false);
+        std::cout << "WIN +" << win
+                  << " | Balance: " << playerCredits << std::endl;
+        if (reels[0] == reels[1]) {
+            winLine = new LineShape(Point2D(230, lineY), Point2D(464, lineY), Color(0, 255, 0));
+        } else if (reels[1] == reels[2]) {
+            winLine = new LineShape(Point2D(357, lineY), Point2D(595, lineY), Color(0, 255, 0));
+        } else {
+            LineShape* line1 = new LineShape(Point2D(230, lineY), Point2D(337, lineY), Color(0, 255, 0));
+            LineShape* line2 = new LineShape(Point2D(488, lineY), Point2D(595, lineY), Color(0, 255, 0));
+            winLine = line1;
+            extraWinLine = line2;
+        }
+    } else {
+        std::cout << "No win. Balance: " << playerCredits << std::endl;
+    }
+}
+
+void SlotGame::saveBalance() {
+    FileManager::saveToFile("balance.txt", std::to_string(playerCredits));
+}
+
+void SlotGame::loadBalance() {
+    std::string data;
+    if (FileManager::loadFromFile("balance.txt", data)) {
+        try {
+            playerCredits = std::stoi(data);
+        } catch (...) {
+            playerCredits = 100;
+        }
+    } else {
+        playerCredits = 100;
+        saveBalance();
+        std::cout << "Balance file not found. Created new with 100 credits." << std::endl;
+    }
+}
+
 
 void SlotGame::draw(Renderer& r) {
     background.draw(r);
@@ -132,4 +179,20 @@ void SlotGame::draw(Renderer& r) {
     symbol1.draw(r);
     symbol2.draw(r);
     symbol3.draw(r);
+
+    if (winLine) {
+    winLine->draw(r);
+    LineShape extra1(winLine->p1 + Point2D(0, 1), winLine->p2 + Point2D(0, 1), winLine->color);
+    LineShape extra2(winLine->p1 + Point2D(0, -1), winLine->p2 + Point2D(0, -1), winLine->color);
+    extra1.draw(r);
+    extra2.draw(r);
+    }
+
+    if (extraWinLine) {
+        extraWinLine->draw(r);
+        LineShape extra3(extraWinLine->p1 + Point2D(0, 1), extraWinLine->p2 + Point2D(0, 1), extraWinLine->color);
+        LineShape extra4(extraWinLine->p1 + Point2D(0, -1), extraWinLine->p2 + Point2D(0, -1), extraWinLine->color);
+        extra3.draw(r);
+        extra4.draw(r);
+}
 }

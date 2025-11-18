@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "BitmapShape.h"
 #include "AudioPlayer.h"
+#include "FileManager.h"
+#include "LineShape.h"
 #include <array>
 #include <vector>
 
@@ -25,15 +27,22 @@ private:
     AudioPlayer winAudio;
     AudioPlayer jackpotAudio;
 
+    LineShape* winLine = nullptr;
+    LineShape* extraWinLine = nullptr;
+
     bool leverActive = false;
     float spinTimer = 0.0f;
     float spinStepTimer = 0.0f;
-    bool bgMutedForEffect = false;
 
-    // --- Для спіну ---
-    std::vector<BitmapShape*> slotSymbols; // усі доступні символи
-    std::array<int, 3> reels;           // фінальні символи для трьох барабанів
+    std::vector<BitmapShape*> slotSymbols;
+    std::array<int, 3> reels;
 
+    int playerCredits = 100;
+    int betAmount = 10;
+
+    void applyWin();
+    void saveBalance();
+    void loadBalance();
 
 public:
     SlotGame();

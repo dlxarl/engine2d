@@ -6,7 +6,7 @@
 class FileManager
 {
 public:
-    static bool = saveToFile(const std::string& filename, const std::string& data)
+    static bool saveToFile(const std::string& filename, const std::string& data)
     {
         std::ofstream file(filename);
         if (!file.is_open())

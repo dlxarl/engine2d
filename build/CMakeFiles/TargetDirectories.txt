@@ -1,7 +1,7 @@
-D:/PGK project/engine2d/build/CMakeFiles/engine2d.dir
-D:/PGK project/engine2d/build/CMakeFiles/edit_cache.dir
-D:/PGK project/engine2d/build/CMakeFiles/rebuild_cache.dir
-D:/PGK project/engine2d/build/CMakeFiles/list_install_components.dir
-D:/PGK project/engine2d/build/CMakeFiles/install.dir
-D:/PGK project/engine2d/build/CMakeFiles/install/local.dir
-D:/PGK project/engine2d/build/CMakeFiles/install/strip.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/engine2d.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/edit_cache.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/rebuild_cache.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/list_install_components.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/install.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/install/local.dir
+C:/Users/Lenovo/Desktop/project/engine2d/build/CMakeFiles/install/strip.dir
