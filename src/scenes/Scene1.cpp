@@ -21,10 +21,10 @@ void Scene1::update(float dt, const Input& input) {
     float scaleStep = 1.01f;
 
     // Рух прямокутника через Transform
-    if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  triangle.move(-moveSpeed, 0);
-    if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) triangle.move(moveSpeed, 0);
-    if (input.isKeyPressed(ALLEGRO_KEY_UP))    triangle.move(0, -moveSpeed);
-    if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  triangle.move(0, moveSpeed);
+    //if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  rect.move(-moveSpeed, 0);
+    //if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) rect.move(moveSpeed, 0);
+    //if (input.isKeyPressed(ALLEGRO_KEY_UP))    rect.move(0, -moveSpeed);
+    //if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  rect.move(0, moveSpeed);
 
     // Обертання прямокутника
     if (input.isKeyPressed(ALLEGRO_KEY_Q)) rect.rotate(-rotateSpeed);

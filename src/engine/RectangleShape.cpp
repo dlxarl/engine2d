@@ -65,9 +65,12 @@ void RectangleShape::draw(Renderer& r) {
         }
     }
 
-    // Малювання заповнення
+    // Малювання заливки під обертанням
     if (filled) {
-        // Визначаємо bounding box
+        float cosNegR = std::cos(-rotation);
+        float sinNegR = std::sin(-rotation);
+
+        // bounding box
         int minX = static_cast<int>(std::min({corners[0].x, corners[1].x, corners[2].x, corners[3].x}));
         int maxX = static_cast<int>(std::max({corners[0].x, corners[1].x, corners[2].x, corners[3].x}));
         int minY = static_cast<int>(std::min({corners[0].y, corners[1].y, corners[2].y, corners[3].y}));
@@ -75,7 +78,13 @@ void RectangleShape::draw(Renderer& r) {
 
         for (int y = minY; y <= maxY; ++y) {
             for (int x = minX; x <= maxX; ++x) {
-                r.setPixel(x, y, fillColor);
+                // локальні координати
+                float lx = (x - cx) * cosNegR - (y - cy) * sinNegR;
+                float ly = (x - cx) * sinNegR + (y - cy) * cosNegR;
+
+                if (lx >= -hw && lx <= hw && ly >= -hh && ly <= hh) {
+                    r.setPixel(x, y, fillColor);
+                }
             }
         }
     }

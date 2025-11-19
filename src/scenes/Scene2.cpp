@@ -27,30 +27,18 @@ void Scene2::update(float dt, const Input& input) {
     if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  rect.move(0, moveSpeed);
 
     // Обертання прямокутника
-    if (input.isKeyPressed(ALLEGRO_KEY_Q)) rect.rotate(-rotateSpeed);
-    if (input.isKeyPressed(ALLEGRO_KEY_E)) rect.rotate(rotateSpeed);
+    if (input.isKeyPressed(ALLEGRO_KEY_Q)) triangle.rotate(-rotateSpeed);
+    if (input.isKeyPressed(ALLEGRO_KEY_E)) triangle.rotate(rotateSpeed);
 
     // Масштабування
-    if (input.isKeyPressed(ALLEGRO_KEY_W)) rect.scale(scaleStep);    // збільшити
-    if (input.isKeyPressed(ALLEGRO_KEY_S)) rect.scale(1.0f/scaleStep); // зменшити
+    if (input.isKeyPressed(ALLEGRO_KEY_W)) circle.scale(scaleStep);    // збільшити
+    if (input.isKeyPressed(ALLEGRO_KEY_S)) circle.scale(1.0f/scaleStep); // зменшити
 
 
-    float rectSpeed = 2.0f;
-    if (input.isKeyPressed(ALLEGRO_KEY_LEFT)) {
-        rect.pos.x -= rectSpeed;
-    }
-    if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) {
-        rect.pos.x += rectSpeed;
-    }
-    if (input.isKeyPressed(ALLEGRO_KEY_UP)) {
-        rect.pos.y -= rectSpeed;
-    }
-    if (input.isKeyPressed(ALLEGRO_KEY_DOWN)) {
-        rect.pos.y += rectSpeed;
-    }
 
-    circle.center.x = input.mouseX;
-    circle.center.y = input.mouseY;
+    // Circle follows cursor
+    circle.position.x = input.mouseX;
+    circle.position.y = input.mouseY;
 
     if (input.isKeyJustPressed(ALLEGRO_KEY_F)) {
         circle.toggleFill();
