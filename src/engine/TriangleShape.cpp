@@ -14,7 +14,7 @@ void TriangleShape::toggleFill() {
 void TriangleShape::draw(Renderer& r) {
     Point2D v[3];
 
-    // Рахуємо вершини трикутника з урахуванням rotation та position
+
     for (int i = 0; i < 3; ++i) {
         float a = rotation + i * 2.0f * M_PI / 3.0f; // rotation з Transform
         float dx = std::cos(a) * size * scaleFactor;
@@ -27,7 +27,7 @@ void TriangleShape::draw(Renderer& r) {
     }
 
     if (filled) {
-        // Triangle fill (scanline)
+
         int minY = std::min({v[0].y, v[1].y, v[2].y});
         int maxY = std::max({v[0].y, v[1].y, v[2].y});
 
@@ -50,7 +50,7 @@ void TriangleShape::draw(Renderer& r) {
             }
         }
     } else {
-        // Outline
+
         LineShape side1(v[0], v[1], color);
         LineShape side2(v[1], v[2], color);
         LineShape side3(v[2], v[0], color);

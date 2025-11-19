@@ -16,13 +16,13 @@ int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
 
-    // Allegro core initialization
+
     if (!al_init()) {
         std::cerr << "Failed to initialize Allegro!" << std::endl;
         return -1;
     }
 
-    // Addons
+
     al_init_image_addon();
     al_init_primitives_addon();
     al_init_font_addon();
@@ -32,15 +32,15 @@ int main(int argc, char** argv) {
 
     std::cout << "Current working dir: " << std::filesystem::current_path() << std::endl;
 
-    // Renderer creates display internally
+
     Renderer renderer(800, 600);
     Input input;
 
-    // Set title
-    //al_set_window_title(renderer.getDisplay(), "Slot Machine Game");
-    al_set_window_title(renderer.getDisplay(), "Przykład");
 
-    // Event system
+    al_set_window_title(renderer.getDisplay(), "Slot Machine Game");
+    //al_set_window_title(renderer.getDisplay(), "Przykład");
+
+
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
 
@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 
     al_start_timer(timer);
 
-    // Scene manager with initial scene
+
     //SceneManager manager(new SlotGame());
     SceneManager manager(new Scene1());
 
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         if (input.isKeyPressed(ALLEGRO_KEY_ESCAPE))
             running = false;
 
-        // Update and render current scene
+
         manager.update(1.0f / 60.0f, input);
         renderer.clear(Color(0, 0, 0));
 
@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
         input.update();
     }
 
-    // Cleanup
+
     al_destroy_timer(timer);
     al_destroy_event_queue(eventQueue);
     return 0;

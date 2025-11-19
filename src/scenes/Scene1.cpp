@@ -20,19 +20,19 @@ void Scene1::update(float dt, const Input& input) {
     float rotateSpeed = 0.05f;
     float scaleStep = 1.01f;
 
-    // Рух прямокутника через Transform
+
     //if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  rect.move(-moveSpeed, 0);
     //if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) rect.move(moveSpeed, 0);
     //if (input.isKeyPressed(ALLEGRO_KEY_UP))    rect.move(0, -moveSpeed);
     //if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  rect.move(0, moveSpeed);
 
-    // Обертання прямокутника
+
     if (input.isKeyPressed(ALLEGRO_KEY_Q)) rect.rotate(-rotateSpeed);
     if (input.isKeyPressed(ALLEGRO_KEY_E)) rect.rotate(rotateSpeed);
 
-    // Масштабування
-    if (input.isKeyPressed(ALLEGRO_KEY_W)) circle.scale(scaleStep);    // збільшити
-    if (input.isKeyPressed(ALLEGRO_KEY_S)) circle.scale(1.0f/scaleStep); // зменшити
+
+    if (input.isKeyPressed(ALLEGRO_KEY_W)) circle.scale(scaleStep);
+    if (input.isKeyPressed(ALLEGRO_KEY_S)) circle.scale(1.0f/scaleStep);
 
     float animSpeed = 2.0f;
     if (input.isKeyPressed(ALLEGRO_KEY_LEFT)) {
@@ -49,11 +49,11 @@ void Scene1::update(float dt, const Input& input) {
         anim.position.y += animSpeed;
     }
 
-    // Circle follows cursor
+
     circle.position.x = input.mouseX;
     circle.position.y = input.mouseY;
 
-    // Switch filling
+
     if (input.isKeyJustPressed(ALLEGRO_KEY_F)) {
         circle.toggleFill();
     }
@@ -66,7 +66,7 @@ void Scene1::update(float dt, const Input& input) {
         rect.toggleFill();
     }
 
-    // End scene
+
     if (input.isKeyPressed(ALLEGRO_KEY_ESCAPE)) {
         timer = 999.0f;
     }

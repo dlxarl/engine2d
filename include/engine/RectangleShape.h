@@ -10,10 +10,10 @@ public:
     Point2D pos;
     int width, height;
 
-    Color fillColor;     // колір для заливки
-    Color borderColor;   // колір контуру
+    Color fillColor;
+    Color borderColor;
 
-    bool filled = false; // чи заповнений
+    bool filled = false;
 
     RectangleShape(Point2D p, int w, int h, Color border);
 

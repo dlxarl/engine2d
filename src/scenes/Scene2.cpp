@@ -20,23 +20,23 @@ void Scene2::update(float dt, const Input& input) {
     float rotateSpeed = 0.05f;
     float scaleStep = 1.01f;
 
-    // Рух прямокутника через Transform
+
     if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  rect.move(-moveSpeed, 0);
     if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) rect.move(moveSpeed, 0);
     if (input.isKeyPressed(ALLEGRO_KEY_UP))    rect.move(0, -moveSpeed);
     if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  rect.move(0, moveSpeed);
 
-    // Обертання прямокутника
+
     if (input.isKeyPressed(ALLEGRO_KEY_Q)) triangle.rotate(-rotateSpeed);
     if (input.isKeyPressed(ALLEGRO_KEY_E)) triangle.rotate(rotateSpeed);
 
-    // Масштабування
+
     if (input.isKeyPressed(ALLEGRO_KEY_W)) circle.scale(scaleStep);    // збільшити
     if (input.isKeyPressed(ALLEGRO_KEY_S)) circle.scale(1.0f/scaleStep); // зменшити
 
 
 
-    // Circle follows cursor
+
     circle.position.x = input.mouseX;
     circle.position.y = input.mouseY;
 

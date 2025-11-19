@@ -8,7 +8,7 @@ AudioPlayer::AudioPlayer() {
     if (!al_is_acodec_addon_initialized()) {
         al_init_acodec_addon();
     }
-    al_reserve_samples(8); // трошки запасу під кілька одночасних звуків
+    al_reserve_samples(8);
 }
 
 AudioPlayer::~AudioPlayer() {
@@ -51,7 +51,7 @@ void AudioPlayer::stop() {
 
 void AudioPlayer::setVolume(float volume) {
     if (instance) {
-        al_set_sample_instance_gain(instance, volume); // 0.0 = тиша, 1.0 = норм
+        al_set_sample_instance_gain(instance, volume);
     }
 }
 

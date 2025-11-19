@@ -10,7 +10,7 @@ public:
 
     void clear(Color c);
     void setPixel(int x, int y, Color c);
-    void drawFramebuffer(); // запис у texture + один al_draw_bitmap
+    void drawFramebuffer();
 
     ALLEGRO_DISPLAY* getDisplay() const { return display; }
     int getWidth() const { return width; }
@@ -21,5 +21,5 @@ private:
     int height = 0;
     std::vector<Color> framebuffer;
     ALLEGRO_DISPLAY* display = nullptr;
-    ALLEGRO_BITMAP* texture = nullptr; // offscreen bitmap
+    ALLEGRO_BITMAP* texture = nullptr;
 };

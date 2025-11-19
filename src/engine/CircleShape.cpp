@@ -13,7 +13,7 @@ void CircleShape::toggleFill() {
 void CircleShape::draw(Renderer& r) {
     int scaledRadius = static_cast<int>(radius * scaleFactor);
 
-    int cx = static_cast<int>(position.x); // беремо position з Transform
+    int cx = static_cast<int>(position.x);
     int cy = static_cast<int>(position.y);
 
     if (filled) {

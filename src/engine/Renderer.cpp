@@ -6,7 +6,7 @@
 
 Renderer::Renderer(int w, int h)
     : width(w), height(h), framebuffer(static_cast<size_t>(w) * static_cast<size_t>(h)) {
-    // Спробуємо увімкнути VSync перед створенням дисплея
+
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     display = al_create_display(width, height);
     if (!display) {
@@ -30,7 +30,7 @@ void Renderer::setPixel(int x, int y, Color c) {
 void Renderer::drawFramebuffer() {
     if (!display) return;
 
-    // Малюємо напряму в backbuffer
+
     ALLEGRO_BITMAP* back = al_get_backbuffer(display);
     ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(back, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_WRITEONLY);
     if (!lr) {

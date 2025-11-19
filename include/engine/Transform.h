@@ -4,8 +4,8 @@
 
 class Transform {
 public:
-    Point2D position;   // опорна точка / центр
-    float rotation = 0; // у радіанах
+    Point2D position;
+    float rotation = 0;
     float scaleFactor = 1.0f;
 
     Transform(const Point2D& pos = Point2D(0,0)) : position(pos) {}
