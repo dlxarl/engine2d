@@ -13,26 +13,7 @@ include(GNUInstallDirs)
 
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-add_executable(engine2d ${SOURCES}
-        include/engine/TriangleShape.h
-        src/engine/TriangleShape.cpp
-        include/engine/BitmapShape.h
-        src/engine/BitmapShape.cpp
-        include/engine/AnimatedBitmap.h
-        src/engine/AnimatedBitmap.cpp
-        src/scenes/headers/Scene.h
-        src/scenes/headers/Scene1.h
-        src/scenes/Scene1.cpp
-        src/SceneManager.cpp
-        src/SceneManager.h
-        src/scenes/headers/Scene2.h
-        src/scenes/Scene2.cpp
-        src/scenes/SlotGame.cpp
-        src/scenes/headers/SlotGame.h
-        include/engine/DefinePoint.h
-        include/engine/AudioPlayer.h
-        src/engine/AudioPlayer.cpp
-        include/engine/Transform.h)
+add_executable(engine2d ${SOURCES})
 
 target_include_directories(engine2d PRIVATE
         ${CMAKE_SOURCE_DIR}/include/engine
