@@ -4,6 +4,15 @@
 #include <cstdint>
 #include <iostream>
 
+/**
+ * @brief Konstruktor klasy Renderer.
+ *
+ * Tworzy bufor pikseli o zadanej szerokości i wysokości oraz inicjalizuje wyświetlacz Allegro.
+ * Włącza synchronizację pionową (VSync).
+ *
+ * @param w Szerokość wyświetlacza i bufora
+ * @param h Wysokość wyświetlacza i bufora
+ */
 Renderer::Renderer(int w, int h)
     : width(w), height(h), framebuffer(static_cast<size_t>(w) * static_cast<size_t>(h)) {
 
@@ -14,22 +23,45 @@ Renderer::Renderer(int w, int h)
     }
 }
 
+/**
+ * @brief Destruktor klasy Renderer.
+ *
+ * Niszczy wyświetlacz Allegro jeśli istnieje.
+ */
 Renderer::~Renderer() {
     if (display) al_destroy_display(display);
 }
 
+/**
+ * @brief Wyczyść cały bufor pikseli do określonego koloru.
+ *
+ * @param c Kolor używany do wyczyszczenia bufora
+ */
 void Renderer::clear(Color c) {
     std::fill(framebuffer.begin(), framebuffer.end(), c);
 }
 
+/**
+ * @brief Ustawia pojedynczy piksel w buforze na określony kolor.
+ *
+ * Funkcja ignoruje piksele spoza obszaru bufora.
+ *
+ * @param x Współrzędna X piksela
+ * @param y Współrzędna Y piksela
+ * @param c Kolor piksela
+ */
 void Renderer::setPixel(int x, int y, Color c) {
     if (x < 0 || y < 0 || x >= width || y >= height) return;
     framebuffer[static_cast<size_t>(y) * static_cast<size_t>(width) + static_cast<size_t>(x)] = c;
 }
 
+/**
+ * @brief Rysuje zawartość bufora na ekranie.
+ *
+ * Kopiuje piksele z bufora do backbuffera Allegro, a następnie odświeża wyświetlacz.
+ */
 void Renderer::drawFramebuffer() {
     if (!display) return;
-
 
     ALLEGRO_BITMAP* back = al_get_backbuffer(display);
     ALLEGRO_LOCKED_REGION* lr = al_lock_bitmap(back, ALLEGRO_PIXEL_FORMAT_ABGR_8888, ALLEGRO_LOCK_WRITEONLY);

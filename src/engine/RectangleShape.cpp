@@ -2,22 +2,39 @@
 #include <cmath>
 #include <algorithm>
 
+/**
+ * @brief Konstruktor klasy RectangleShape.
+ *
+ * Inicjalizuje prostokąt o określonej pozycji, wymiarach i kolorze obramowania.
+ * Kolor wypełnienia ustawiany jest początkowo taki sam jak obramowanie.
+ *
+ * @param p Pozycja środka prostokąta
+ * @param w Szerokość prostokąta
+ * @param h Wysokość prostokąta
+ * @param border Kolor obramowania prostokąta
+ */
 RectangleShape::RectangleShape(Point2D p, int w, int h, Color border)
     : Shape(border), Transform(p), width(w), height(h), borderColor(border), fillColor(border)
 {
-
 }
 
+/**
+ * @brief Rysuje prostokąt w przestrzeni 2D.
+ *
+ * Uwzględnia skalowanie (scaleFactor) i obrót (rotation) z klasy Transform.
+ * Rysuje najpierw obramowanie, a następnie (jeśli włączone) wypełnienie.
+ *
+ * @param r Obiekt Renderer używany do rysowania pikseli
+ */
 void RectangleShape::draw(Renderer& r) {
 
     float cx = position.x;
     float cy = position.y;
 
-
     float hw = width * 0.5f * scaleFactor;
     float hh = height * 0.5f * scaleFactor;
 
-
+    // Współrzędne narożników prostokąta
     Point2D corners[4] = {
         {-hw, -hh},
         { hw, -hh},
@@ -25,7 +42,7 @@ void RectangleShape::draw(Renderer& r) {
         {-hw,  hh}
     };
 
-
+    // Obrót prostokąta
     float cosR = std::cos(rotation);
     float sinR = std::sin(rotation);
 
@@ -33,16 +50,14 @@ void RectangleShape::draw(Renderer& r) {
         float x = corners[i].x;
         float y = corners[i].y;
 
-
         float xr = x * cosR - y * sinR;
         float yr = x * sinR + y * cosR;
-
 
         corners[i].x = xr + cx;
         corners[i].y = yr + cy;
     }
 
-
+    // Rysowanie obramowania prostokąta (linia po linii)
     for (int i = 0; i < 4; ++i) {
         int next = (i + 1) % 4;
         int x0 = static_cast<int>(corners[i].x);
@@ -65,11 +80,10 @@ void RectangleShape::draw(Renderer& r) {
         }
     }
 
-
+    // Wypełnienie prostokąta jeśli włączone
     if (filled) {
         float cosNegR = std::cos(-rotation);
         float sinNegR = std::sin(-rotation);
-
 
         int minX = static_cast<int>(std::min({corners[0].x, corners[1].x, corners[2].x, corners[3].x}));
         int maxX = static_cast<int>(std::max({corners[0].x, corners[1].x, corners[2].x, corners[3].x}));
@@ -90,6 +104,12 @@ void RectangleShape::draw(Renderer& r) {
     }
 }
 
+/**
+ * @brief Przełącza tryb wypełnienia prostokąta.
+ *
+ * Jeśli figura była obrysem — staje się wypełniona.
+ * Jeśli była wypełniona — staje się obrysem.
+ */
 void RectangleShape::toggleFill() {
     filled = !filled;
 }

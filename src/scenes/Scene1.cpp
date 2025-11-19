@@ -1,6 +1,13 @@
 #include "headers/Scene1.h"
 #include "headers/Scene2.h"
 
+/**
+ * @brief Konstruktor sceny Scene1
+ *
+ * Inicjalizuje różne kształty i animacje:
+ * - linia, prostokąt, okrąg, trójkąt
+ * - bitmapa statyczna i animowana
+ */
 Scene1::Scene1()
     : line(Point2D(100, 100), Point2D(700, 100), Color(255, 0, 0)),
       rect(Point2D(300, 100), 150, 100, Color(0, 255, 0)),
@@ -9,9 +16,22 @@ Scene1::Scene1()
       image("assets/test_static.png", Point2D(400, 300)),
       anim("assets/samurai/ATTACK.png", 96, 96, 7, 0.05f, Point2D(200, 200), 4.0f)
 {
-    anim.play(true);
+    anim.play(true); ///< uruchomienie animacji w pętli
 }
 
+/**
+ * @brief Aktualizacja logiki sceny Scene1
+ *
+ * Obsługuje:
+ * - przesuwanie animacji przyciskami strzałek
+ * - skalowanie i obrót kształtów przyciskami Q/E/W/S
+ * - aktualizację pozycji okręgu według pozycji myszy
+ * - włączanie/wyłączanie wypełnienia kształtów (F, T, K)
+ * - zakończenie sceny po czasie > 5 sekund lub ESC
+ *
+ * @param dt Czas delta w sekundach
+ * @param input Obiekt klasy Input
+ */
 void Scene1::update(float dt, const Input& input) {
     timer += dt;
     anim.update(dt);
@@ -20,73 +40,68 @@ void Scene1::update(float dt, const Input& input) {
     float rotateSpeed = 0.05f;
     float scaleStep = 1.01f;
 
-
-    //if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  rect.move(-moveSpeed, 0);
-    //if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) rect.move(moveSpeed, 0);
-    //if (input.isKeyPressed(ALLEGRO_KEY_UP))    rect.move(0, -moveSpeed);
-    //if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  rect.move(0, moveSpeed);
-
-
+    // Obrót prostokąta
     if (input.isKeyPressed(ALLEGRO_KEY_Q)) rect.rotate(-rotateSpeed);
     if (input.isKeyPressed(ALLEGRO_KEY_E)) rect.rotate(rotateSpeed);
 
-
+    // Skalowanie okręgu
     if (input.isKeyPressed(ALLEGRO_KEY_W)) circle.scale(scaleStep);
     if (input.isKeyPressed(ALLEGRO_KEY_S)) circle.scale(1.0f/scaleStep);
 
+    // Ruch animacji
     float animSpeed = 2.0f;
-    if (input.isKeyPressed(ALLEGRO_KEY_LEFT)) {
-        anim.position.x -= animSpeed;
-    }
+    if (input.isKeyPressed(ALLEGRO_KEY_LEFT))  anim.position.x -= animSpeed;
+    if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) anim.position.x += animSpeed;
+    if (input.isKeyPressed(ALLEGRO_KEY_UP))    anim.position.y -= animSpeed;
+    if (input.isKeyPressed(ALLEGRO_KEY_DOWN))  anim.position.y += animSpeed;
 
-    if (input.isKeyPressed(ALLEGRO_KEY_RIGHT)) {
-        anim.position.x += animSpeed;
-    }
-    if (input.isKeyPressed(ALLEGRO_KEY_UP)) {
-        anim.position.y -= animSpeed;
-    }
-    if (input.isKeyPressed(ALLEGRO_KEY_DOWN)) {
-        anim.position.y += animSpeed;
-    }
-
-
+    // Ustawienie pozycji okręgu zgodnie z pozycją myszy
     circle.position.x = input.mouseX;
     circle.position.y = input.mouseY;
 
+    // Przełączanie wypełnienia kształtów
+    if (input.isKeyJustPressed(ALLEGRO_KEY_F)) circle.toggleFill();
+    if (input.isKeyJustPressed(ALLEGRO_KEY_T)) triangle.toggleFill();
+    if (input.isKeyJustPressed(ALLEGRO_KEY_K)) rect.toggleFill();
 
-    if (input.isKeyJustPressed(ALLEGRO_KEY_F)) {
-        circle.toggleFill();
-    }
-
-    if (input.isKeyJustPressed(ALLEGRO_KEY_T)) {
-        triangle.toggleFill();
-    }
-
-    if (input.isKeyJustPressed(ALLEGRO_KEY_K)) {
-        rect.toggleFill();
-    }
-
-
+    // Zakończenie sceny przy ESC
     if (input.isKeyPressed(ALLEGRO_KEY_ESCAPE)) {
         timer = 999.0f;
     }
-
-
 }
 
+/**
+ * @brief Rysowanie sceny Scene1
+ *
+ * Wyświetla wszystkie kształty i animacje.
+ *
+ * @param r Obiekt Renderer
+ */
 void Scene1::draw(Renderer& r) {
-    //line.draw(r);
+    // line.draw(r); ///< Można włączyć linię do rysowania
     rect.draw(r);
     circle.draw(r);
     triangle.draw(r);
-    //image.draw(r);
+    // image.draw(r); ///< Bitmapa statyczna
     anim.draw(r);
 }
 
+/**
+ * @brief Sprawdza, czy scena zakończona
+ *
+ * Scena kończy się po 5 sekundach lub przy naciśnięciu ESC.
+ *
+ * @return true jeśli scena zakończona
+ */
 bool Scene1::isFinished() const {
     return timer > 5.0f;
 }
 
+/**
+ * @brief Zwraca wskaźnik na następną scenę
+ *
+ * @return wskaźnik na Scene2
+ */
 Scene* Scene1::nextScene() const {
     return new Scene2();
 }

@@ -4,19 +4,43 @@
 #include <algorithm>
 #include <vector>
 
+/**
+ * @brief Konstruktor klasy TriangleShape.
+ *
+ * Inicjalizuje trójkąt równoboczny o określonej pozycji środka, rozmiarze i kolorze.
+ *
+ * @param c Pozycja środka trójkąta
+ * @param s Rozmiar trójkąta (długość boku)
+ * @param col Kolor trójkąta
+ */
 TriangleShape::TriangleShape(Point2D c, float s, Color col)
     : Shape(col), Transform(c), size(s) {}
 
+/**
+ * @brief Przełącza tryb wypełnienia trójkąta.
+ *
+ * Jeśli figura była obrysem — staje się wypełniona.
+ * Jeśli była wypełniona — staje się obrysem.
+ */
 void TriangleShape::toggleFill() {
     filled = !filled;
 }
 
+/**
+ * @brief Rysuje trójkąt w przestrzeni 2D.
+ *
+ * Uwzględnia skalowanie (scaleFactor) i obrót (rotation) z klasy Transform.
+ * Jeśli wypełnienie jest włączone, stosuje algorytm skanline do wypełnienia.
+ * W przeciwnym razie rysuje tylko krawędzie trójkąta.
+ *
+ * @param r Obiekt Renderer używany do rysowania pikseli
+ */
 void TriangleShape::draw(Renderer& r) {
     Point2D v[3];
 
-
+    // Obliczenie pozycji wierzchołków trójkąta
     for (int i = 0; i < 3; ++i) {
-        float a = rotation + i * 2.0f * M_PI / 3.0f; // rotation з Transform
+        float a = rotation + i * 2.0f * M_PI / 3.0f; // rotation z Transform
         float dx = std::cos(a) * size * scaleFactor;
         float dy = std::sin(a) * size * scaleFactor;
 
@@ -27,7 +51,7 @@ void TriangleShape::draw(Renderer& r) {
     }
 
     if (filled) {
-
+        // Wypełnianie trójkąta algorytmem skanline
         int minY = std::min({v[0].y, v[1].y, v[2].y});
         int maxY = std::max({v[0].y, v[1].y, v[2].y});
 
@@ -50,7 +74,7 @@ void TriangleShape::draw(Renderer& r) {
             }
         }
     } else {
-
+        // Rysowanie tylko krawędzi trójkąta
         LineShape side1(v[0], v[1], color);
         LineShape side2(v[1], v[2], color);
         LineShape side3(v[2], v[0], color);

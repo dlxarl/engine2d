@@ -1,8 +1,25 @@
 #include "LineShape.h"
 #include <cmath>
 
+/**
+ * @brief Konstruktor klasy LineShape.
+ *
+ * Inicjalizuje linię 2D z określonymi punktami końcowymi i kolorem.
+ *
+ * @param a Punkt początkowy linii
+ * @param b Punkt końcowy linii
+ * @param c Kolor linii
+ */
 LineShape::LineShape(Point2D a, Point2D b, Color c) : Shape(c), p1(a), p2(b) {}
 
+/**
+ * @brief Rysuje linię 2D przy użyciu algorytmu Bresenhama.
+ *
+ * Rysuje wszystkie piksele od punktu p1 do punktu p2, używając koloru
+ * zdefiniowanego w obiekcie Shape::color.
+ *
+ * @param r Obiekt Renderer używany do rysowania pikseli
+ */
 void LineShape::draw(Renderer& r){
     int x1 = (int)p1.x, y1 = (int)p1.y;
     int x2 = (int)p2.x, y2 = (int)p2.y;
