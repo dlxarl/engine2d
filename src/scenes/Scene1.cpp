@@ -8,7 +8,10 @@ Scene1::Scene1()
       triangle(Point2D(600, 300), 60, Color(255, 255, 0)),
       image("assets/test_static.png", Point2D(400, 300)),
       anim("assets/samurai/ATTACK.png", 96, 96, 7, 0.05f, Point2D(200, 200), 4.0f)
-{}
+{
+    anim.play(true);
+}
+
 void Scene1::update(float dt, const Input& input) {
     timer += dt;
     anim.update(dt);
@@ -77,7 +80,7 @@ void Scene1::draw(Renderer& r) {
     circle.draw(r);
     triangle.draw(r);
     //image.draw(r);
-    //anim.draw(r);
+    anim.draw(r);
 }
 
 bool Scene1::isFinished() const {

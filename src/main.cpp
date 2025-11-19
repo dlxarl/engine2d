@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
     al_start_timer(timer);
 
     // Scene manager with initial scene
-    //SceneManager manager(new SlotGame());
+    // SceneManager manager(new SlotGame());
     SceneManager manager(new Scene1());
 
     bool running = true;
