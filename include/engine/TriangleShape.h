@@ -1,18 +1,16 @@
 #pragma once
 #include "Shape.h"
+#include "Transform.h"
 #include "Point2D.h"
-#include <array>
 
-class TriangleShape : public Shape {
+class TriangleShape : public Shape, public Transform {
 public:
-    Point2D center;
     float size;
-    float angle = 0.0f;
     float hue = 0.0f;
     bool filled = false;
 
-    TriangleShape(Point2D c, float s, Color col);
+    TriangleShape(Point2D pos, float s, Color col);
+
     void draw(Renderer& r) override;
-    void update();
     void toggleFill();
 };

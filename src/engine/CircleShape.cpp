@@ -1,40 +1,47 @@
 #include "CircleShape.h"
+#include <cmath>
 
-CircleShape::CircleShape(Point2D c, int r, Color col) : Shape(col), center(c), radius(r) {}
+CircleShape::CircleShape(Point2D c, int r, Color col)
+    : Shape(col), Transform(c), radius(r)
+{
+}
 
 void CircleShape::toggleFill() {
     filled = !filled;
 }
 
-
 void CircleShape::draw(Renderer& r) {
+    int scaledRadius = static_cast<int>(radius * scaleFactor);
+
+    int cx = static_cast<int>(position.x); // беремо position з Transform
+    int cy = static_cast<int>(position.y);
+
     if (filled) {
-        // Circle filling
-        for (int y = -radius; y <= radius; y++) {
-            for (int x = -radius; x <= radius; x++) {
-                if (x*x + y*y <= radius*radius) {
-                    r.setPixel(center.x + x, center.y + y, color);
+        for (int y = -scaledRadius; y <= scaledRadius; y++) {
+            for (int x = -scaledRadius; x <= scaledRadius; x++) {
+                if (x*x + y*y <= scaledRadius*scaledRadius) {
+                    r.setPixel(cx + x, cy + y, color);
                 }
             }
         }
     } else {
-        // Outline
-        int x = 0, y = radius;
-        int d = 1 - radius;
+        int x = 0;
+        int y = scaledRadius;
+        int d = 1 - scaledRadius;
 
-        auto drawCirclePoints = [&](int cx, int cy, int x, int y) {
-            r.setPixel(cx + x, cy + y, color);
-            r.setPixel(cx - x, cy + y, color);
-            r.setPixel(cx + x, cy - y, color);
-            r.setPixel(cx - x, cy - y, color);
-            r.setPixel(cx + y, cy + x, color);
-            r.setPixel(cx - y, cy + x, color);
-            r.setPixel(cx + y, cy - x, color);
-            r.setPixel(cx - y, cy - x, color);
+        auto drawCirclePoints = [&](int px, int py, int x, int y) {
+            r.setPixel(px + x, py + y, color);
+            r.setPixel(px - x, py + y, color);
+            r.setPixel(px + x, py - y, color);
+            r.setPixel(px - x, py - y, color);
+            r.setPixel(px + y, py + x, color);
+            r.setPixel(px - y, py + x, color);
+            r.setPixel(px + y, py - x, color);
+            r.setPixel(px - y, py - x, color);
         };
 
         while (y >= x) {
-            drawCirclePoints(center.x, center.y, x, y);
+            drawCirclePoints(cx, cy, x, y);
             if (d < 0)
                 d += 2 * x + 3;
             else {

@@ -31,7 +31,8 @@ add_executable(engine2d ${SOURCES}
         src/scenes/headers/SlotGame.h
         include/engine/DefinePoint.h
         include/engine/AudioPlayer.h
-        src/engine/AudioPlayer.cpp)
+        src/engine/AudioPlayer.cpp
+        include/engine/Transform.h)
 
 target_include_directories(engine2d PRIVATE
         ${CMAKE_SOURCE_DIR}/include/engine

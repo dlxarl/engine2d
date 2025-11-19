@@ -3,14 +3,20 @@
 #include "Renderer.h"
 #include "Point2D.h"
 #include "Color.h"
+#include "Transform.h"
 
-class RectangleShape : public Shape {
+class RectangleShape : public Shape, public Transform {
 public:
     Point2D pos;
     int width, height;
-    Color fillColor;
-    Color borderColor;
 
-    RectangleShape(Point2D p, int w, int h, Color fill, Color border = Color(0, 0, 0));
+    Color fillColor;     // колір для заливки
+    Color borderColor;   // колір контуру
+
+    bool filled = false; // чи заповнений
+
+    RectangleShape(Point2D p, int w, int h, Color border);
+
+    void toggleFill();
     void draw(Renderer& r) override;
 };

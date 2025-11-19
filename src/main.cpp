@@ -37,7 +37,8 @@ int main(int argc, char** argv) {
     Input input;
 
     // Set title
-    al_set_window_title(renderer.getDisplay(), "Slot Machine Game");
+    //al_set_window_title(renderer.getDisplay(), "Slot Machine Game");
+    al_set_window_title(renderer.getDisplay(), "Przykład");
 
     // Event system
     ALLEGRO_EVENT_QUEUE* eventQueue = al_create_event_queue();
@@ -52,7 +53,8 @@ int main(int argc, char** argv) {
     al_start_timer(timer);
 
     // Scene manager with initial scene
-    SceneManager manager(new SlotGame());
+    //SceneManager manager(new SlotGame());
+    SceneManager manager(new Scene1());
 
     bool running = true;
 

@@ -3,37 +3,31 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+
 TriangleShape::TriangleShape(Point2D c, float s, Color col)
-    : Shape(col), center(c), size(s) {}
+    : Shape(col), Transform(c), size(s) {}
 
 void TriangleShape::toggleFill() {
     filled = !filled;
 }
 
-void TriangleShape::update() {
-    angle += 0.02f;
-    hue += 0.5f;
-    if (hue > 360.0f) hue -= 360.0f;
-
-    // HSL -> RGB
-    float r = std::abs(std::sin(hue * 0.01745f));
-    float g = std::abs(std::sin((hue + 120) * 0.01745f));
-    float b = std::abs(std::sin((hue + 240) * 0.01745f));
-    color = Color(r * 255, g * 255, b * 255);
-}
-
 void TriangleShape::draw(Renderer& r) {
     Point2D v[3];
+
+    // Рахуємо вершини трикутника з урахуванням rotation та position
     for (int i = 0; i < 3; ++i) {
-        float a = angle + i * 2.0f * M_PI / 3.0f;
+        float a = rotation + i * 2.0f * M_PI / 3.0f; // rotation з Transform
+        float dx = std::cos(a) * size * scaleFactor;
+        float dy = std::sin(a) * size * scaleFactor;
+
         v[i] = Point2D(
-            center.x + std::cos(a) * size,
-            center.y + std::sin(a) * size
+            position.x + dx,
+            position.y + dy
         );
     }
 
     if (filled) {
-        // Triangle fill
+        // Triangle fill (scanline)
         int minY = std::min({v[0].y, v[1].y, v[2].y});
         int maxY = std::max({v[0].y, v[1].y, v[2].y});
 
@@ -56,6 +50,7 @@ void TriangleShape::draw(Renderer& r) {
             }
         }
     } else {
+        // Outline
         LineShape side1(v[0], v[1], color);
         LineShape side2(v[1], v[2], color);
         LineShape side3(v[2], v[0], color);
